@@ -9,8 +9,6 @@ import UIKit
 
 class ImageListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
-    
-    
     private let photosName: [String] = Array(0..<20).map{("\($0)")}
     
     override func viewDidLoad() {
@@ -52,7 +50,6 @@ extension ImageListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageListCell.reuseIdentifier, for: indexPath)
         guard let imageListcell = cell as? ImageListCell else {

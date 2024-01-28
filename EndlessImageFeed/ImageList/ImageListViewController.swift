@@ -40,12 +40,10 @@ extension ImageListViewController {
         cell.likeButtonActive.setImage(likedImage, for: .normal)
     }
 }
-
 extension ImageListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 }
-
 extension ImageListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count

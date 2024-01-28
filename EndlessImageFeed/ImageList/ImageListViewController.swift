@@ -26,6 +26,7 @@ class ImageListViewController: UIViewController {
         return formatter
     }()
 }
+
 extension ImageListViewController {
     func configCell(for cell: ImageListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {

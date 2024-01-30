@@ -30,7 +30,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="yBC-pX-qOU">
-                                                    <rect key="frame" x="0.0" y="-4" width="361" height="250"/>
+                                                    <rect key="frame" x="0.0" y="4" width="361" height="242"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
@@ -38,39 +38,32 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YAH-c6-ReE" userLabel="DateLabel">
-                                                    <rect key="frame" x="16" y="228" width="208" height="18"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="208" id="6oS-sd-uFx"/>
-                                                        <constraint firstAttribute="height" constant="18" id="rYG-sm-oYC"/>
-                                                    </constraints>
-                                                    <attributedString key="attributedText">
-                                                        <fragment content="27 августа 2022">
-                                                            <attributes>
-                                                                <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                                                <font key="NSFont" size="13" name="YSDisplay-Medium"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
-                                                    <color key="highlightedColor" name="YP White "/>
-                                                </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Du3-LN-GNM" userLabel="LikeButtonActive">
                                                     <rect key="frame" x="319" y="0.0" width="42" height="42"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" title="" image="Icon 42x42 ActiveLike"/>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2022" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YAH-c6-ReE" userLabel="DateLabel">
+                                                    <rect key="frame" x="10" y="221" width="158" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="18" id="UW1-iK-xCF"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="13"/>
+                                                    <color key="textColor" name="YP White "/>
+                                                    <color key="highlightedColor" name="YP White "/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" name="YP Black"/>
                                             <constraints>
-                                                <constraint firstAttribute="top" secondItem="yBC-pX-qOU" secondAttribute="top" constant="4" id="2hM-0k-beq"/>
+                                                <constraint firstAttribute="top" secondItem="yBC-pX-qOU" secondAttribute="top" constant="-4" id="2hM-0k-beq"/>
                                                 <constraint firstAttribute="trailing" secondItem="yBC-pX-qOU" secondAttribute="trailing" id="7ga-sx-vUn"/>
-                                                <constraint firstAttribute="bottom" secondItem="yBC-pX-qOU" secondAttribute="bottom" constant="4" id="IkJ-4T-pAq"/>
+                                                <constraint firstItem="yBC-pX-qOU" firstAttribute="bottom" secondItem="DeS-cQ-ITz" secondAttribute="bottom" constant="-4" id="IkJ-4T-pAq"/>
                                                 <constraint firstItem="Du3-LN-GNM" firstAttribute="top" secondItem="DeS-cQ-ITz" secondAttribute="top" id="R09-sM-i4r"/>
-                                                <constraint firstItem="YAH-c6-ReE" firstAttribute="bottom" secondItem="yBC-pX-qOU" secondAttribute="bottom" id="a2D-jH-5Zq"/>
-                                                <constraint firstItem="YAH-c6-ReE" firstAttribute="leading" secondItem="DeS-cQ-ITz" secondAttribute="leadingMargin" constant="-4" id="aE2-v7-qfk"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YAH-c6-ReE" secondAttribute="trailing" constant="20" symbolic="YES" id="cVt-4g-pO5"/>
                                                 <constraint firstAttribute="trailing" secondItem="Du3-LN-GNM" secondAttribute="trailing" id="frw-uQ-u49"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YAH-c6-ReE" secondAttribute="trailing" constant="20" symbolic="YES" id="xZt-XI-VOV"/>
+                                                <constraint firstItem="YAH-c6-ReE" firstAttribute="leading" secondItem="yBC-pX-qOU" secondAttribute="leadingMargin" constant="8" id="joC-q6-JbQ"/>
+                                                <constraint firstItem="YAH-c6-ReE" firstAttribute="bottom" secondItem="yBC-pX-qOU" secondAttribute="bottomMargin" constant="8" id="y0n-2a-BWP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="AccentColor"/>

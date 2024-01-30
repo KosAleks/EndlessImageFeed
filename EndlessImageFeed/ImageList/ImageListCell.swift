@@ -14,3 +14,5 @@ final class ImageListCell: UITableViewCell {
     @IBOutlet var dataLabel: UILabel!
     @IBOutlet var imageCell: UIImageView!
 }
+
+

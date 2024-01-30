@@ -13,6 +13,7 @@ final class ImageListCell: UITableViewCell {
     @IBOutlet var likeButtonActive: UIButton!
     @IBOutlet var dataLabel: UILabel!
     @IBOutlet var imageCell: UIImageView!
+    
 }
 
 

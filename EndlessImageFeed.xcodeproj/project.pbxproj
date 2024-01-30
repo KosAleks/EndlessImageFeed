@@ -14,7 +14,6 @@
 		2308588E2B58057800E39914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2308588D2B58057800E39914 /* Assets.xcassets */; };
 		230858912B58057800E39914 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2308588F2B58057800E39914 /* LaunchScreen.storyboard */; };
 		23A8703B2B61790600CB612D /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A8703A2B61790600CB612D /* ImageListCell.swift */; };
-		23F3112E2B65453E00E375D7 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23F3112D2B65453E00E375D7 /* YS Display-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +26,6 @@
 		230858902B58057800E39914 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		230858922B58057800E39914 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23A8703A2B61790600CB612D /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
-		23F3112D2B65453E00E375D7 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,17 +82,8 @@
 		23F3112B2B6543C500E375D7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				23F3112C2B6543FB00E375D7 /* Fonts */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		23F3112C2B6543FB00E375D7 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				23F3112D2B65453E00E375D7 /* YS Display-Bold.ttf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +147,6 @@
 				230858912B58057800E39914 /* LaunchScreen.storyboard in Resources */,
 				2308588E2B58057800E39914 /* Assets.xcassets in Resources */,
 				2308588C2B58055400E39914 /* Main.storyboard in Resources */,
-				23F3112E2B65453E00E375D7 /* YS Display-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

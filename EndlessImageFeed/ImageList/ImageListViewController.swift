@@ -32,9 +32,6 @@ extension ImageListViewController {
         }
         cell.imageCell.image = image
         cell.dataLabel.text = dateFormated.string(from: Date())
-        cell.dataLabel.textColor = .white
-        cell.dataLabel.font = .boldSystemFont(ofSize: 13)
-        
         let isLiked = indexPath.row % 2 == 0
         let likedImage = isLiked ? UIImage(named: "Icon 42x42 ActiveLike") : UIImage(named: "Icon 42x42 NoActiveLike1")
         cell.likeButtonActive.setImage(likedImage, for: .normal)

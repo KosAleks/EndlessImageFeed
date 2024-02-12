@@ -15,8 +15,6 @@ final class ImageListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-//        tableView.dataSource = self
-//        tableView.delegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -78,6 +76,8 @@ extension ImageListViewController: UITableViewDataSource {
         let scale = imageViewWidth / imageWidth
         let cellHeidht = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeidht
+        
+        
     }
 }
 

@@ -52,9 +52,13 @@ final class ProfileViewController: UIViewController {
         let exitButton =  UIButton(type: .system)
         exitButton.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
         exitButton.tintColor = UIColor(named: "YP Red")
+        
       
+        
         view.addSubview(exitButton)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
     }

@@ -47,6 +47,7 @@ extension ImageListViewController {
         let likedImage = isLiked ? UIImage(named: "Icon 42x42 ActiveLike") : UIImage(named: "Icon 42x42 NoActiveLike1")
         cell.likeButtonActive.setImage(likedImage, for: .normal)
     }
+    
 }
 
 extension ImageListViewController: UITableViewDelegate {

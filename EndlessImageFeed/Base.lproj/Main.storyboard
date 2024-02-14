@@ -165,7 +165,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Backward 24x24"/>
                                 <connections>
-                                    <action selector="didTapBackButton" destination="dMg-p3-xdk" eventType="editingDidEndOnExit" id="KRa-gs-Wgk"/>
+                                    <action selector="didTapBackButton" destination="dMg-p3-xdk" eventType="touchUpInside" id="u7A-Tj-bVp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Jm-yb-THT" userLabel="sharingButton">
@@ -173,7 +173,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Sharing1 50x50"/>
                                 <connections>
-                                    <action selector="sharingButtonDidTap:" destination="dMg-p3-xdk" eventType="touchUpInside" id="Vwq-RG-QVB"/>
+                                    <action selector="didTapSharingButton:" destination="dMg-p3-xdk" eventType="touchUpInside" id="OPI-Xk-jcs"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -195,9 +195,10 @@
                     <navigationItem key="navigationItem" id="Ays-mx-iQk"/>
                     <size key="freeformSize" width="392" height="851"/>
                     <connections>
+                        <outlet property="backButton" destination="das-Lg-lXY" id="oxS-nz-h4k"/>
                         <outlet property="imageView" destination="vTy-cQ-LSv" id="zLq-TA-DKX"/>
                         <outlet property="scrollView" destination="hWm-7G-Wpi" id="8Jr-Y3-SCd"/>
-                        <outlet property="sharingButton" destination="6Jm-yb-THT" id="76d-dm-JVu"/>
+                        <outlet property="sharingButton" destination="6Jm-yb-THT" id="hGZ-s6-fz3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xMU-HG-BUL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -10,7 +10,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor(named: "YP Black")
-        let profileImage = UIImage(named: "userPhoto")
+        let profileImage = UIImage(named: "UserPhoto")
         let imageView = UIImageView(image: profileImage)
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false

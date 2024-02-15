@@ -16,7 +16,7 @@ final class ProfileViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 52).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 76).isActive = true
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         let userNameLabel = UILabel()
@@ -52,8 +52,6 @@ final class ProfileViewController: UIViewController {
         let exitButton =  UIButton(type: .system)
         exitButton.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
         exitButton.tintColor = UIColor(named: "YP Red")
-        
-      
         
         view.addSubview(exitButton)
         exitButton.translatesAutoresizingMaskIntoConstraints = false

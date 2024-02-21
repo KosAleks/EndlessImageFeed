@@ -16,14 +16,14 @@ final class ProfileViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 76).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        
         
         let userNameLabel = UILabel()
         userNameLabel.text = "Екатерина Новикова"
         userNameLabel.textColor = UIColor(named: "YP White")
-        userNameLabel.font = UIFont(name: "YS Display", size: 23)
-        userNameLabel.font = UIFont.boldSystemFont(ofSize: 23)
+        userNameLabel.font = UIFont(name: "YS Display-Bold.ttf", size: 23)
         
         view.addSubview(userNameLabel)
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +33,7 @@ final class ProfileViewController: UIViewController {
         let userMailLabel = UILabel()
         userMailLabel.text = "@ekaterina_nov"
         userMailLabel.textColor = UIColor(named: "YP Gray")
-        userMailLabel.font = UIFont(name: "YS Display", size: 13)
+        userMailLabel.font = UIFont(name: "YS Display-Regular.ttf", size: 13)
         
         view.addSubview(userMailLabel)
         userMailLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ final class ProfileViewController: UIViewController {
         let greetingLabel = UILabel()
         greetingLabel.text = "Hello, world!"
         greetingLabel.textColor = UIColor(named: "YP White")
-        greetingLabel.font = UIFont(name: "YS Display", size: 13)
+        greetingLabel.font = UIFont(name: "YS Display-Regular.ttf", size: 13)
         view.addSubview(greetingLabel)
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.topAnchor.constraint(equalTo: userMailLabel.bottomAnchor, constant: 8).isActive = true

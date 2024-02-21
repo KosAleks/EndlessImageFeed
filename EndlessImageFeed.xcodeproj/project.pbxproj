@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23059D572B8634FC00C9334F /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23059D562B8634FC00C9334F /* YS Display-Bold.ttf */; };
+		23059D592B86350600C9334F /* YS Display-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23059D582B86350600C9334F /* YS Display-Regular.ttf */; };
 		230858852B58055400E39914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230858842B58055400E39914 /* AppDelegate.swift */; };
 		230858872B58055400E39914 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230858862B58055400E39914 /* SceneDelegate.swift */; };
 		230858892B58055400E39914 /* ImageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230858882B58055400E39914 /* ImageListViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23059D562B8634FC00C9334F /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
+		23059D582B86350600C9334F /* YS Display-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Regular.ttf"; sourceTree = "<group>"; };
 		230858812B58055400E39914 /* EndlessImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EndlessImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		230858842B58055400E39914 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		230858862B58055400E39914 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +47,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23059D542B8633FB00C9334F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				23059D552B86342700C9334F /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		23059D552B86342700C9334F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				23059D582B86350600C9334F /* YS Display-Regular.ttf */,
+				23059D562B8634FC00C9334F /* YS Display-Bold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		230858782B58055400E39914 = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +89,7 @@
 				230858842B58055400E39914 /* AppDelegate.swift */,
 				230858862B58055400E39914 /* SceneDelegate.swift */,
 				2308588A2B58055400E39914 /* Main.storyboard */,
+				23059D542B8633FB00C9334F /* Resources */,
 				2308588D2B58057800E39914 /* Assets.xcassets */,
 				2308588F2B58057800E39914 /* LaunchScreen.storyboard */,
 				230858922B58057800E39914 /* Info.plist */,
@@ -145,6 +167,8 @@
 				230858912B58057800E39914 /* LaunchScreen.storyboard in Resources */,
 				2308588E2B58057800E39914 /* Assets.xcassets in Resources */,
 				2308588C2B58055400E39914 /* Main.storyboard in Resources */,
+				23059D572B8634FC00C9334F /* YS Display-Bold.ttf in Resources */,
+				23059D592B86350600C9334F /* YS Display-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

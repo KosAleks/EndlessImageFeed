@@ -10,7 +10,6 @@ import UIKit
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private init() {}
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard URL(string: "https://unsplash.com") != nil else {
             print("Something is going wrong. Wrong address or destination unreachable. Check that the URL to request token is correct.")

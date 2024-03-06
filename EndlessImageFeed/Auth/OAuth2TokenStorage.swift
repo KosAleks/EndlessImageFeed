@@ -9,7 +9,7 @@ import Foundation
 
 class OAuth2TokenStorage {
     // Вычислимое свойство token
-    var token: String {
+    var token: String? {
         get {
             // Возвращаем сохраненное значение токена из хранилища, например, UserDefaults
             return UserDefaults.standard.string(forKey: "OAuth2Token") ?? ""

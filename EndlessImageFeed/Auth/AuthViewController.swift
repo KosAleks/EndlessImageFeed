@@ -9,9 +9,10 @@ import Foundation
 import UIKit
 
 class AuthViewController: UIViewController, WebViewViewControllerDelegate {
+
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
-    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
@@ -21,6 +22,8 @@ class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     
     
     let ShowWebViewSegueIdentifier = "ShowWebView"
+    
+    weak var delegate: AuthViewControllerDelegate?
     
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "navBackButton")
@@ -44,7 +47,4 @@ class AuthViewController: UIViewController, WebViewViewControllerDelegate {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
-   
-   // private let oauth2Service = OAuth2Service.shared
 }

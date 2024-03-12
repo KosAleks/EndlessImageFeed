@@ -15,7 +15,7 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
@@ -24,9 +24,9 @@ final class SingleImageViewController: UIViewController {
         rescaleAndCenterImageInScrollView(image: image)
         view.backgroundColor = UIColor(named: "YP Black")
     }
-
     
-
+    
+    
     @IBAction func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }

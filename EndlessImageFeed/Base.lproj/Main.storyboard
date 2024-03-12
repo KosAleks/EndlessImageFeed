@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="O6y-vU-0dM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wCE-aW-RNr">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -118,7 +118,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="6LU-1l-Dm3">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" modalTransitionStyle="flipHorizontal" id="7fY-5B-qes" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" modalTransitionStyle="flipHorizontal" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7fY-5B-qes" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="Svw-ck-aCQ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -250,12 +250,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H7D-Ni-cx0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2871" y="343"/>
+            <point key="canvasLocation" x="-3244" y="277"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q77-Ne-ONl">
             <objects>
                 <navigationController id="O6y-vU-0dM" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="9jp-vN-4Wj"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zwf-7V-2Fe">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

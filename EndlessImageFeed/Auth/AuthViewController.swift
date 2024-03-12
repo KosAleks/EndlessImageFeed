@@ -8,22 +8,33 @@
 import Foundation
 import UIKit
 
-class AuthViewController: UIViewController, WebViewViewControllerDelegate {
 
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
-    }
-    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        dismiss(animated: true)
-    }
+class AuthViewController: UIViewController, WebViewViewControllerDelegate {
+    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let oauth2Service = OAuth2Service.shared
+    weak var delegate: AuthViewControllerDelegate?
     
     @IBOutlet var authLogo: UIImageView!
     @IBOutlet var enterButton: UIButton!
     
-    
-    let ShowWebViewSegueIdentifier = "ShowWebView"
-    
-    weak var delegate: AuthViewControllerDelegate?
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        vc.dismiss(animated: true)
+        oauth2Service.fetchOAuthToken(code: code) { result in
+            switch result {
+            case .success(let token):
+                self.oauth2TokenStorage.token = token
+                self.delegate?.didAuthenticate(self)
+            case .failure(let error):
+                print("Failed to fetch OAuth token with error: \(error)")
+            }
+        }
+    }
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+        dismiss(animated: true)
+    }
+    override func viewDidLoad() {
+        configureBackButton()
+    }
     
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "navBackButton")
@@ -34,17 +45,5 @@ class AuthViewController: UIViewController, WebViewViewControllerDelegate {
             target: nil,
             action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
-    }
-    override func viewDidLoad() {
-        configureBackButton()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowWebViewSegueIdentifier {
-                let webViewViewController = segue.destination as? WebViewViewController
-            webViewViewController?.authViewDelegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
     }
 }

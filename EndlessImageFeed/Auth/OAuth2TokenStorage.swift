@@ -12,7 +12,7 @@ class OAuth2TokenStorage {
     var token: String? {
         get {
             // Возвращаем сохраненное значение токена из хранилища, например, UserDefaults
-            return UserDefaults.standard.string(forKey: "OAuth2Token") ?? ""
+            return UserDefaults.standard.string(forKey: "OAuth2Token") ?? nil
         }
         set {
             // При установке нового значения токена сохраняем его в хранилище, например, UserDefaults
@@ -20,5 +20,5 @@ class OAuth2TokenStorage {
         }
     }
     static let shared = OAuth2TokenStorage()
-    }
+}
 

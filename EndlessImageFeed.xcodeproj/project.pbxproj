@@ -122,12 +122,12 @@
 			path = EndlessImageFeed;
 			sourceTree = "<group>";
 		};
-		233C61EB2B95F15400BDE41E /* SplashView */ = {
+		233C61EB2B95F15400BDE41E /* SplashViewController */ = {
 			isa = PBXGroup;
 			children = (
 				233C61EC2B95F1C300BDE41E /* SplashViewController.swift */,
 			);
-			path = SplashView;
+			path = SplashViewController;
 			sourceTree = "<group>";
 		};
 		23A8703D2B617A5900CB612D /* ImageList */ = {
@@ -149,7 +149,7 @@
 				234A0B0E2B9517950087E01E /* OAuth2TokenStorage.swift */,
 				234A0B102B951B850087E01E /* OAuthTokenResponseBody.swift */,
 				23B4F6AF2B95F996007D10C3 /* AuthViewControllerDelegate.swift */,
-				233C61EB2B95F15400BDE41E /* SplashView */,
+				233C61EB2B95F15400BDE41E /* SplashViewController */,
 			);
 			path = Auth;
 			sourceTree = "<group>";

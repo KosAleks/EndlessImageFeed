@@ -57,6 +57,7 @@ final class OAuth2Service {
                 OAuth2TokenStorage.shared.token = response.accessToken
                 DispatchQueue.main.async {
                     completion(.success(response.accessToken))
+                   
                 }
             } catch {
                 DispatchQueue.main.async {

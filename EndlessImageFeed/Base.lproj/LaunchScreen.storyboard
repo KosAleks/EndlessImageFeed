@@ -26,7 +26,6 @@
                         <color key="tintColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="9tB-yj-C19" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="A1w-cO-sWB"/>
-                            <constraint firstItem="9tB-yj-C19" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="150" id="UMP-To-Lc3"/>
                         </constraints>
                     </view>
                 </viewController>

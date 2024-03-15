@@ -143,7 +143,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="dMg-p3-xdk" userLabel="SingleImageViewController" customClass="SingleImageViewController" customModule="EndlessImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFill" id="b5v-1r-Xp7">
-                        <rect key="frame" x="0.0" y="0.0" width="392" height="851"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hWm-7G-Wpi" userLabel="scrollView">
@@ -258,7 +258,6 @@
                 <navigationController id="O6y-vU-0dM" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="9jp-vN-4Wj"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zwf-7V-2Fe">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

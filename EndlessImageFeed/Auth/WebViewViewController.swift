@@ -9,11 +9,12 @@ import Foundation
 import UIKit
 import WebKit
 
-class WebViewViewController: UIViewController, WKNavigationDelegate {
+class WebViewViewController: UIViewController {
     
     @IBOutlet var webView: WKWebView!
     
     @IBOutlet var progressView: UIProgressView!
+    
     
     weak var authViewDelegate: WebViewViewControllerDelegate?
     
@@ -41,19 +42,20 @@ class WebViewViewController: UIViewController, WKNavigationDelegate {
         webView.load(request)
     }
     override func viewDidLoad() {
+        super.viewDidLoad()
         loadAuthView()
         webView.navigationDelegate = self
         updateProgress()
     }
 }
-extension WebViewViewController {
+
+extension WebViewViewController:  WKNavigationDelegate {
+
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let code = code(from: navigationAction) {
-                print(authViewDelegate ?? 0)
-                print(code)
                 authViewDelegate?.webViewViewController(self, didAuthenticateWithCode: code)
                 decisionHandler(.cancel)
             } else {
@@ -73,7 +75,6 @@ extension WebViewViewController {
             return nil
         }
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView.addObserver(

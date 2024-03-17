@@ -7,7 +7,7 @@
 
 import Foundation
 
-class OAuth2TokenStorage {
+final class OAuth2TokenStorage {
     // Вычислимое свойство token
     var token: String? {
         get {

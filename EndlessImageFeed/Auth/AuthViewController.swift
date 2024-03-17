@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 
-class AuthViewController: UIViewController, WebViewViewControllerDelegate {
+final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service.shared
     weak var delegate: AuthViewControllerDelegate?
-    private var showWebViewSegue = "ShowWebView"
+    private let showWebViewSegue = "ShowWebView"
     @IBOutlet var authLogo: UIImageView!
     @IBOutlet var enterButton: UIButton!
     
@@ -29,6 +29,7 @@ class AuthViewController: UIViewController, WebViewViewControllerDelegate {
             }
         }
     }
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }

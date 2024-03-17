@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import WebKit
 
-class WebViewViewController: UIViewController {
+final class WebViewViewController: UIViewController {
     
     @IBOutlet var webView: WKWebView!
     

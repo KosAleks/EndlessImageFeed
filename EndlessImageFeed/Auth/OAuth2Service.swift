@@ -32,7 +32,9 @@ final class OAuth2Service {
         guard let urlRequest = makeOAuthTokenRequest(code: code) else { return }
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
@@ -46,7 +48,9 @@ final class OAuth2Service {
             
             guard let data = data else {
                 let error = NSError(domain: "Data", code: -1, userInfo: nil)
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
@@ -57,7 +61,6 @@ final class OAuth2Service {
                 OAuth2TokenStorage.shared.token = response.accessToken
                 DispatchQueue.main.async {
                     completion(.success(response.accessToken))
-                   
                 }
             } catch {
                 DispatchQueue.main.async {

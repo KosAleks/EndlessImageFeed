@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import ProgressHUD
-final class SplashViewController: UIViewController {
+class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private let showAuthenticationScreenSegue = "ShowAuthenticationScreen"
     

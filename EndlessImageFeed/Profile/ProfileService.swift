@@ -5,14 +5,16 @@
 //  Created by Александра Коснырева on 16.03.2024.
 //
 import Foundation
-enum ProfileServiceError: Error {
-    case invalidRequest
-}
+
 final class ProfileService {
+    static let shared = ProfileService()
+    private init () {}
+    
+    private(set) var profile: Profile? 
     private let urlSession = URLSession.shared
-    private var taskGet: URLSessionTask?//пеменная для хранения указателя на последнюю созданную задачу. Если активных задач нет, то значение будет nil.
+    private var task: URLSessionTask?
     private var token = OAuth2TokenStorage.shared.token
-    private var lastToken: String? // Переменная для хранения значения token, которое было передано в последнем созданном запросе.
+    private var lastToken: String?
     
     private func makeUserProfileRequest(token: String) -> URLRequest? {
         let urlString = "https://api.unsplash.com/me"
@@ -27,29 +29,34 @@ final class ProfileService {
         print(request)
         return request
     }
-    func fetchUserProfileResult(token: String, completion: @escaping (Result<ProfileResult,Error>) -> Void) {
+    
+func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -> Void) {
+        task?.cancel()
         print(token)
-        assert(Thread.isMainThread)
-        if taskGet != nil { // Проверяем, выполняется ли в данный момент GET-запрос. Если да, то task != nil.
-            if lastToken != token { // Проверяем соответствует ли текущий токен последнему использованному токену. Если они не совпадают, выполняется отмена текущей задачи.
-                taskGet?.cancel() // отменяем выполнение задачи
-            } else {
-                completion(.failure(AuthServiceError.invalidRequest))
-                return
-            }
-        } else {
-            if lastToken == token { // здесь уже taskGet == nil, т.е.нет активных Get- запросов, но запрос с этим токеном уже выполнялся. В этом случае возвращается ошибка invalidRequest и выполнение запроса прерывается
-                completion(.failure(AuthServiceError.invalidRequest))
-                self.taskGet = nil
-                self.lastToken = nil
-                return
-            }
-        }
-        lastToken = token
         guard let request = makeUserProfileRequest(token: token) else {
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
-        taskGet = urlSession.dataTask(with: request) { [weak self] data, response, error  in
+        task = fetchProfileBody(request: request) { [weak self] responce in
+            self?.task = nil
+            switch responce {
+            case .success(let profileResult):
+                let profile = Profile(profileResult: profileResult)
+                completion(.success(profile))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func fetchProfileBody(request: URLRequest, completion: @escaping (Result<ProfileResult,Error>) -> Void) -> URLSessionTask {
+        let _: (Result<ProfileResult,Error>) -> Void = {
+            result  in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+        let task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))
@@ -66,94 +73,46 @@ final class ProfileService {
                     completion(.failure(error))
                     return
                 }
-                
                 do {
                     let decoder = JSONDecoder()
                     // decoder.keyDecodingStrategy = .convertFromSnakeCase
                     print(data)
                     let response = try decoder.decode(ProfileResult.self, from: data)
-                    // Сохраняем полученныe данные в хранилище ResultStorage
+                    // сохраняем полученные данные в ProfileStorage
                     let resultStorage = ProfileStorage()
-                    print(response.userName, response.firstName, response.lastName, response.bio ?? "nothing")
                     resultStorage.userName = response.userName
                     resultStorage.firstName = response.firstName ?? "No first name"
                     resultStorage.lastName = response.lastName ?? "No last name"
                     resultStorage.bio = response.bio ?? "No bio info"
                     print(resultStorage.userName,resultStorage.firstName ,resultStorage.lastName, resultStorage.bio)
                     
-                    let profileInfo = ProfileResult(
+                    let profile = ProfileResult(
                         userName: response.userName,
                         firstName: response.firstName,
                         lastName: response.lastName,
                         bio: response.bio ?? "No bio info")
-                    completion(.success(profileInfo))
+                    
+                    completion(.success(profile))
+                    
                 } catch {
                     completion(.failure(error))
-                    self?.taskGet = nil
+                    self?.task = nil
                 }
             }
+            guard let task = self?.task else {
+                return
+            }
+            task.resume()
         }
-        guard let taskGet = self.taskGet else {
-            return
-        }
-        taskGet.resume()
+        return task
     }
+    
 }
-
-struct ProfileResult: Codable {
-    var userName: String
-    var firstName: String?
-    var lastName: String?
-    var bio: String?
-}
-enum CodingKeys: String, CodingKey{
-    case userName = "username"
-    case firstName = "first_name"
-    case lastName = "last_name"
-    case bio = "bio"
-}
-
-struct Profile {
-    var username: String
-    var name: String
-    var loginName: String
-    var bio: String
-}
-
-class ProfileStorage {
-    var userName: String {
-        get {
-            // Возвращаем сохраненное значение имени пользователя из UserDefaults
-            return UserDefaults.standard.string(forKey: "userName") ?? "There is no name"
-        }
-        set {
-            // При установке нового значения имени пользователя сохраняем его в UserDefaults
-            UserDefaults.standard.set(newValue, forKey: "userName")
-        }
-    }
-    var firstName: String {
-        get {
-            return UserDefaults.standard.string(forKey: "firstName") ?? "There is no firstName"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "firstName")
-        }
-    }
-    var lastName: String {
-        get {
-            return UserDefaults.standard.string(forKey: "lastName") ?? "There is no lastName"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "lastName")
-        }
-    }
-    var bio: String {
-        get {
-            return UserDefaults.standard.string(forKey: "bio") ?? "There is no bio"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "bio")
-        }
-    }
-}
-
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                

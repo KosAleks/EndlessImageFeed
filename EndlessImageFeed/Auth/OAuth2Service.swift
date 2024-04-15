@@ -23,11 +23,11 @@ final class OAuth2Service {
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         let urlString = "https://unsplash.com/oauth/token" +
-        "?client_id=\(AccessKey)" +
-        "&client_secret=\(SecretKey)" +
-        "&redirect_uri=\(RedirectURI)" +
+        "?client_id=\(ApiConstants.accessKey)" +
+        "&client_secret=\(ApiConstants.secretKey)" +
+        "&redirect_uri=\(ApiConstants.redirectURI)" +
         "&code=\(code)" +
-        "&grant_type=\(GrandType)"
+        "&grant_type=\(ApiConstants.grandType)"
         
         guard let url = URL(string: urlString) else {
             print("Failed to create URL with baseURL and parameters.")
@@ -58,17 +58,16 @@ final class OAuth2Service {
             }
         }
         lastCode = code // запоминаем  code из запроса
-        guard
-            let request = makeOAuthTokenRequest(code: code)
+        guard let request = makeOAuthTokenRequest(code: code)
         else {
             DispatchQueue.main.async{
                 completion(.failure(AuthServiceError.invalidRequest))
             }
-            self.task = nil
-            self.lastCode = nil
             return
         }
-       task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
+        task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
+            self?.task = nil
+            self?.lastCode = nil
             DispatchQueue.main.async {
                 if let error = error {
                     DispatchQueue.main.async{
@@ -97,6 +96,7 @@ final class OAuth2Service {
                     let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     // Сохраняем полученный токен в хранилище
                     OAuth2TokenStorage.shared.token = response.accessToken
+                    print(response.accessToken)
                     DispatchQueue.main.async {
                         completion(.success(response.accessToken))
                     }
@@ -104,15 +104,15 @@ final class OAuth2Service {
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
-                   // self?.task = nil
-                   // self?.lastCode = nil
                 }
             }
-           guard let task = self?.task else {
-               return
-           }
-           task.resume()
+            guard let task = self?.task else {
+                return
+            }
+            task.resume() //пробрасываем запрос в сеть
+            
         }
     }
 }
+    
 

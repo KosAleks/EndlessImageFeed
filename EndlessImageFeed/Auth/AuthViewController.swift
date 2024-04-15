@@ -9,22 +9,24 @@ import Foundation
 import UIKit
 import ProgressHUD
 
-class AuthViewController: UIViewController, WebViewViewControllerDelegate {
+final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service.shared
     weak var delegate: AuthViewControllerDelegate?
-    private var showWebViewSegue = "ShowWebView"
+    private let showWebViewSegue = "ShowWebView"
     @IBOutlet var authLogo: UIImageView!
     @IBOutlet var enterButton: UIButton!
+    
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         // ProgressHUD.showBanner("Загрузка выполняется", "пожалуйста, дождитесь результата")
         UIBlockingProgressHUD.show()
+        
         oauth2Service.fetchOAuthToken(code) { result in
             switch result {
             case .success(let token):
                 self.oauth2TokenStorage.token = token
-                self.delegate?.didAuthenticate(self)
+                //self.delegate?.didAuthenticate(self)
             case .failure(let error):
                 print("Failed to fetch OAuth token with error: \(error)")
                 vc.dismiss(animated: true)
@@ -32,6 +34,7 @@ class AuthViewController: UIViewController, WebViewViewControllerDelegate {
         }
         UIBlockingProgressHUD.dismiss()
     }
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }

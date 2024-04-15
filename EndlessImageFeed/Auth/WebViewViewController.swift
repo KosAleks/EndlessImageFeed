@@ -29,10 +29,10 @@ final class WebViewViewController: UIViewController {
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: AccessKey),
-            URLQueryItem(name: "redirect_uri", value: RedirectURI),
+            URLQueryItem(name: "client_id", value: ApiConstants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: ApiConstants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: AccessScope)
+            URLQueryItem(name: "scope", value: ApiConstants.accessScope)
         ]
         guard let url = urlComponents.url else {
             print("Something is going wrong. Сheck that the url is correct.")

@@ -65,7 +65,7 @@ final class OAuth2Service {
             }
             return
         }
-        task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
+       let task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
             self?.task = nil
             self?.lastCode = nil
             DispatchQueue.main.async {

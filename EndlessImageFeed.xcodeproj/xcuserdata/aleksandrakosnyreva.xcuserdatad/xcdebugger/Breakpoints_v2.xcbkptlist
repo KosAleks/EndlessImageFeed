@@ -86,7 +86,86 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9DA28C88-11EB-4968-8681-14B62578B4B5"
+            uuid = "319A045F-6F8E-4FA2-A8A3-DB2B8B177C22"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EndlessImageFeed/Profile/ProfileService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "fetchProfile(token:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "64239AD6-C750-4CD4-A37B-BBE4DAD2A8B0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EndlessImageFeed/Auth/AuthViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "webViewViewController(_:didAuthenticateWithCode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "64239AD6-C750-4CD4-A37B-BBE4DAD2A8B0 - 589e8d65b205f67c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EndlessImageFeed.AuthViewController.webViewViewController(_: EndlessImageFeed.WebViewViewController, didAuthenticateWithCode: Swift.String) -&gt; ()"
+                  moduleName = "EndlessImageFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/AuthViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "86">
+               </Location>
+               <Location
+                  uuid = "64239AD6-C750-4CD4-A37B-BBE4DAD2A8B0 - a4edd0f44bd6434d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.String, Swift.Error&gt;) -&gt; () in EndlessImageFeed.AuthViewController.webViewViewController(_: EndlessImageFeed.WebViewViewController, didAuthenticateWithCode: Swift.String) -&gt; ()"
+                  moduleName = "EndlessImageFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/AuthViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "64239AD6-C750-4CD4-A37B-BBE4DAD2A8B0 - a4edd0f44bd6434d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.String, Swift.Error&gt;) -&gt; () in EndlessImageFeed.AuthViewController.webViewViewController(_: EndlessImageFeed.WebViewViewController, didAuthenticateWithCode: Swift.String) -&gt; ()"
+                  moduleName = "EndlessImageFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/AuthViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "235">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C512B61E-3F05-4EBD-978E-780BF2A9413D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -97,6 +176,38 @@
             endingLineNumber = "68"
             landmarkName = "fetchOAuthToken(_:completion:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C512B61E-3F05-4EBD-978E-780BF2A9413D - d91ff8f4a87fba9d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EndlessImageFeed.OAuth2Service.fetchOAuthToken(_: Swift.String, completion: (Swift.Result&lt;Swift.String, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "EndlessImageFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/OAuth2Service.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "2904">
+               </Location>
+               <Location
+                  uuid = "C512B61E-3F05-4EBD-978E-780BF2A9413D - 51d6eb95e89c3cdc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in EndlessImageFeed.OAuth2Service.fetchOAuthToken(_: Swift.String, completion: (Swift.Result&lt;Swift.String, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "EndlessImageFeed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/OAuth2Service.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "306">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

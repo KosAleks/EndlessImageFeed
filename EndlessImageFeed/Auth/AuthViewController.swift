@@ -26,13 +26,13 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             switch result {
             case .success(let token):
                 self.oauth2TokenStorage.token = token
-                //self.delegate?.didAuthenticate(self)
+                self.delegate?.didAuthenticate(self)
             case .failure(let error):
                 print("Failed to fetch OAuth token with error: \(error)")
                 vc.dismiss(animated: true)
             }
+            UIBlockingProgressHUD.dismiss()
         }
-        UIBlockingProgressHUD.dismiss()
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

@@ -65,7 +65,7 @@ final class OAuth2Service {
             }
             return
         }
-       task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
+        task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
             self?.task = nil
             self?.lastCode = nil
             DispatchQueue.main.async {
@@ -109,10 +109,9 @@ final class OAuth2Service {
             guard let task = self?.task else {
                 return
             }
-            task.resume() //пробрасываем запрос в сеть
-            
         }
+        task?.resume() //пробрасываем запрос в сеть
     }
 }
-    
+
 

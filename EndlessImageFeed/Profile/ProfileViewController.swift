@@ -10,7 +10,6 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private var profileStorage = ProfileStorage()
     private var token = OAuth2TokenStorage.shared.token
-    private(set) var profile: Profile?
     private let userNameLabel = UILabel()
     private let userMailLabel = UILabel()
     private let greetingLabel = UILabel()
@@ -26,8 +25,8 @@ final class ProfileViewController: UIViewController {
         imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
-        
         let userNameLabel = UILabel()
+        // userNameLabel.text = profileStorage.firstName + " " + profileStorage.lastName
         userNameLabel.textColor = UIColor(named: "YP White")
         userNameLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
         view.addSubview(userNameLabel)
@@ -35,8 +34,8 @@ final class ProfileViewController: UIViewController {
         userNameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
         userNameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         
-        //let userMailLabel = UILabel()
-        //userMailLabel.text = "@" + profileStorage.userName
+        let userMailLabel = UILabel()
+        //   userMailLabel.text = "@" + profileStorage.userName
         userMailLabel.textColor = UIColor(named: "YP Gray")
         userMailLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
         
@@ -46,13 +45,15 @@ final class ProfileViewController: UIViewController {
         userMailLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         
         let greetingLabel = UILabel()
-        //greetingLabel.text = profileStorage.bio
+        // greetingLabel.text = profileStorage.bio
         greetingLabel.textColor = UIColor(named: "YP White")
         greetingLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
         view.addSubview(greetingLabel)
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.topAnchor.constraint(equalTo: userMailLabel.bottomAnchor, constant: 8).isActive = true
         greetingLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+        
+        updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
         
         let exitButton =  UIButton(type: .system)
         exitButton.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
@@ -65,19 +66,13 @@ final class ProfileViewController: UIViewController {
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         
-        updateProfileDetails()
-    }
-    
-    func updateProfileDetails() {
-        guard let profile = profile else {
-            userNameLabel.text = "no profile data"
-            userMailLabel.text = "no profile data"
-            greetingLabel.text = "no profile data"
+        func updateProfileDetails(profile: Profile) {
+            
+            userNameLabel.text = profile.name
+            userMailLabel.text = profile.loginName
+            greetingLabel.text = profile.bio
+            print("\(userNameLabel.text), \(userMailLabel.text) , \(greetingLabel.text)")
             return
         }
-        userNameLabel.text = profile.username
-        userMailLabel.text = profile.loginName
-        greetingLabel.text = profile.bio
     }
 }
-

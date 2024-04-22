@@ -10,7 +10,7 @@ final class ProfileService {
     static let shared = ProfileService()
     private init () {}
     
-    private(set) var profile: Profile? 
+    private(set) var profile: Profile?
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var token = OAuth2TokenStorage.shared.token
@@ -30,7 +30,7 @@ final class ProfileService {
         return request
     }
     
-func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -> Void) {
+    func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -> Void) {
         task?.cancel()
         print(token)
         guard let request = makeUserProfileRequest(token: token) else {
@@ -41,8 +41,10 @@ func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -
             self?.task = nil
             switch responce {
             case .success(let profileResult):
-                let profile = Profile(profileResult: profileResult)
-                completion(.success(profile))
+                self?.profile = Profile(profileResult: profileResult)
+               
+                completion(.success(self?.profile ?? Profile(username: "no userName", name: "no first name and last name", loginName: "no loginName")))
+                
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -78,6 +80,7 @@ func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -
                     // decoder.keyDecodingStrategy = .convertFromSnakeCase
                     print(data)
                     let response = try decoder.decode(ProfileResult.self, from: data)
+                    print("\(response)")
                     // сохраняем полученные данные в ProfileStorage
                     let resultStorage = ProfileStorage()
                     resultStorage.userName = response.userName
@@ -91,28 +94,27 @@ func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -
                         firstName: response.firstName,
                         lastName: response.lastName,
                         bio: response.bio ?? "No bio info")
-                    
                     completion(.success(profile))
+                    print("\(profile)")
                     
                 } catch {
                     completion(.failure(error))
                     self?.task = nil
                 }
             }
-            guard let task = self?.task else {
+            guard (self?.task) != nil else {
                 return
             }
-            task.resume()
         }
+        task.resume()
         return task
     }
-    
 }
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+
+
+
+
+
+
+
+

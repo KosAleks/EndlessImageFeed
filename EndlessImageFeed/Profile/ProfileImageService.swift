@@ -1,11 +1,11 @@
+////
+////  ProfileImageService.swift
+////  EndlessImageFeed
+////
+////  Created by Александра Коснырева on 21.04.2024.
+////
 //
-//  ProfileImageService.swift
-//  EndlessImageFeed
-//
-//  Created by Александра Коснырева on 21.04.2024.
-//
-
-import Foundation
+//import Foundation
 //final class ProfileImageService {
 //    private let urlSession = URLSession.shared
 //    private var task: URLSessionTask?
@@ -13,29 +13,29 @@ import Foundation
 //    static let shared = ProfileImageService()
 //    init() {}
 //    private (set) var profileImageURL: String?
-//    
-//    
-////    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
-////        task?.cancel()
-////        guard let request = makeProfileImageRequest(token: token ?? "Error! No token") else {
-////            completion(.failure(NetworkError.invalidRequest))
-////            return
-////        }
-////        task = fetchProfileImageInfo(request: request) { [weak self] responce in
-////            self?.task = nil
-////            switch responce {
-////            case .success(let result):
-////                completion(.success(result.profileImage ?? "Error! No profile image."))
-////                print("\(String(describing: result.profileImage))")
-////            case .failure(let error):
-////                completion(.failure(error))
-////            }
-////        }
-////    }
-////    
+//
+//
+//    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
+//        task?.cancel()
+//        guard let request = makeProfileImageRequest(token: token ?? "Error! No token") else {
+//            completion(.failure(NetworkError.invalidRequest))
+//            return
+//        }
+//        task = fetchProfileImageInfo(request: request) { [weak self] responce in
+//            self?.task = nil
+//            switch responce {
+//            case .success(let result):
+//                completion(.success(result.profileImage ?? "Error! No profile image."))
+//                print("\(String(describing: result.profileImage))")
+//            case .failure(let error):
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+//
 //    private func makeProfileImageRequest(token: String) -> URLRequest? {
 //        let urlString = "https://api.unsplash.com//users/:username"
-//        
+//
 //        guard let url = URL(string: urlString) else {
 //            print("Failed to create URL with baseURL and parameters.")
 //            return nil
@@ -46,7 +46,7 @@ import Foundation
 //        print(request)
 //        return request
 //    }
-//    
+//
 //    func fetchProfileImageInfo(request: URLRequest, completion: @escaping (Result<ProfileResult,Error>) -> Void) -> URLSessionTask {
 //        let _: (Result<ProfileResult,Error>) -> Void = {
 //            result  in
@@ -65,7 +65,7 @@ import Foundation
 //                    completion(.failure(error))
 //                    return
 //                }
-//                
+//
 //                guard let data = data else {
 //                    let error = NSError(domain: "Data", code: -1, userInfo: nil)
 //                    completion(.failure(error))

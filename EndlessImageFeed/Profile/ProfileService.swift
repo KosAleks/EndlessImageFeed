@@ -37,84 +37,36 @@ final class ProfileService {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
-        task = fetchProfileBody(request: request) { [weak self] responce in
-            self?.task = nil
-            switch responce {
-            case .success(let profileResult):
-                self?.profile = Profile(profileResult: profileResult)
-               
-                completion(.success(self?.profile ?? Profile(username: "no userName", name: "no first name and last name", loginName: "no loginName")))
+        task = urlSession.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+            self.task = nil
+            switch result {
+            case .success(let response):
+                // сохраняем полученные данные в ProfileStorage
+                let resultStorage = ProfileStorage()
+                resultStorage.userName = response.userName
+                resultStorage.firstName = response.firstName ?? "No first name"
+                resultStorage.lastName = response.lastName ?? "No last name"
+                resultStorage.bio = response.bio ?? "No bio info"
+                print(resultStorage.userName,resultStorage.firstName ,resultStorage.lastName, resultStorage.bio)
                 
+                let profileResult = ProfileResult(
+                    userName: response.userName,
+                    firstName: response.firstName,
+                    lastName: response.lastName,
+                    bio: response.bio ?? "No bio info")
+                
+                self.profile = Profile(profileResult: profileResult)
+                DispatchQueue.main.async{ [self] in
+                    completion(.success(self.profile ?? Profile(username: "no user name", name: "no name", loginName: "no login name")))
+                }
             case .failure(let error):
-                completion(.failure(error))
+                DispatchQueue.main.async{
+                    completion(.failure(error))
+                }
             }
         }
-    }
-    
-    func fetchProfileBody(request: URLRequest, completion: @escaping (Result<ProfileResult,Error>) -> Void) -> URLSessionTask {
-        let _: (Result<ProfileResult,Error>) -> Void = {
-            result  in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        }
-        let task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-                    let error = NSError(domain: "HTTP", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil)
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let data = data else {
-                    let error = NSError(domain: "Data", code: -1, userInfo: nil)
-                    completion(.failure(error))
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    // decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    print(data)
-                    let response = try decoder.decode(ProfileResult.self, from: data)
-                    print("\(response)")
-                    // сохраняем полученные данные в ProfileStorage
-                    let resultStorage = ProfileStorage()
-                    resultStorage.userName = response.userName
-                    resultStorage.firstName = response.firstName ?? "No first name"
-                    resultStorage.lastName = response.lastName ?? "No last name"
-                    resultStorage.bio = response.bio ?? "No bio info"
-                    print(resultStorage.userName,resultStorage.firstName ,resultStorage.lastName, resultStorage.bio)
-                    
-                    let profile = ProfileResult(
-                        userName: response.userName,
-                        firstName: response.firstName,
-                        lastName: response.lastName,
-                        bio: response.bio ?? "No bio info")
-                    completion(.success(profile))
-                    print("\(profile)")
-                    
-                } catch {
-                    completion(.failure(error))
-                    self?.task = nil
-                }
-            }
-            guard (self?.task) != nil else {
-                return
-            }
-        }
-        task.resume()
-        return task
     }
 }
-
-
-
-
-
-
-
-
+                    
+        
+        

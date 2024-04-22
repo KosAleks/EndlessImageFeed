@@ -65,53 +65,24 @@ final class OAuth2Service {
             }
             return
         }
-        task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
-            self?.task = nil
-            self?.lastCode = nil
-            DispatchQueue.main.async {
-                if let error = error {
-                    DispatchQueue.main.async{
-                        completion(.failure(error))
-                    }
-                    return
+        task = urlSession.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
+            self.task = nil
+            self.lastCode = nil
+            switch result {
+            case .success(let response):
+                OAuth2TokenStorage.shared.token = response.accessToken
+                print(response.accessToken)
+                DispatchQueue.main.async {
+                    completion(.success(response.accessToken))
                 }
-                guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-                    let error = NSError(domain: "HTTP", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil)
-                    DispatchQueue.main.async{
-                        completion(.failure(error))
-                    }
-                    return
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
                 }
-                
-                guard let data = data else {
-                    let error = NSError(domain: "Data", code: -1, userInfo: nil)
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                    return
-                }
-                
-                do {
-                    let decoder = JSONDecoder()
-                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    // Сохраняем полученный токен в хранилище
-                    OAuth2TokenStorage.shared.token = response.accessToken
-                    print(response.accessToken)
-                    DispatchQueue.main.async {
-                        completion(.success(response.accessToken))
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                }
-            }
-            guard let task = self?.task else {
-                return
             }
         }
-        task?.resume() //пробрасываем запрос в сеть
     }
 }
-
-
+                                     
+            
+            

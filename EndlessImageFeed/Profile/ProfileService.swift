@@ -31,6 +31,7 @@ final class ProfileService {
     }
     
     func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -> Void) {
+        assert(Thread.isMainThread)
         task?.cancel()
         print(token)
         guard let request = makeUserProfileRequest(token: token) else {
@@ -53,9 +54,11 @@ final class ProfileService {
                     userName: response.userName,
                     firstName: response.firstName,
                     lastName: response.lastName,
-                    bio: response.bio ?? "No bio info")
+                    bio: response.bio ?? "No bio info"
+                    )
                 
                 self.profile = Profile(profileResult: profileResult)
+                
                 DispatchQueue.main.async{ [self] in
                     completion(.success(self.profile ?? Profile(username: "no user name", name: "no name", loginName: "no login name")))
                 }

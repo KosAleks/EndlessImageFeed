@@ -13,8 +13,22 @@ final class ProfileViewController: UIViewController {
     private let userNameLabel = UILabel()
     private let userMailLabel = UILabel()
     private let greetingLabel = UILabel()
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main)
+        { [weak self] _ in
+            guard let self = self else {return}
+            self.updateAvatar()
+        }
+        updateAvatar()
+        
+        
         view.backgroundColor  = UIColor(named: "YP Black")
         let profileImage = UIImage(named: "UserPhoto")
         let imageView = UIImageView(image: profileImage)
@@ -74,5 +88,12 @@ final class ProfileViewController: UIViewController {
             print("\(userNameLabel.text), \(userMailLabel.text) , \(greetingLabel.text)")
             return
         }
+    }
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.profileImageURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
     }
 }

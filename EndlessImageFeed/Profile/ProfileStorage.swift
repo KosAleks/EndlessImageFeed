@@ -42,12 +42,4 @@ final class ProfileStorage {
             UserDefaults.standard.set(newValue, forKey: "bio")
         }
     }
-    var profileImage: String {
-        get {
-            return UserDefaults.standard.string(forKey: "profileImage") ?? "There is no profileImage"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "profileImage")
-        }
-    }
 }

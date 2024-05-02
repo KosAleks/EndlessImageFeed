@@ -1,97 +1,80 @@
-////
-////  ProfileImageService.swift
-////  EndlessImageFeed
-////
-////  Created by Александра Коснырева on 21.04.2024.
-////
 //
-//import Foundation
-//final class ProfileImageService {
-//    private let urlSession = URLSession.shared
-//    private var task: URLSessionTask?
-//    private var token = OAuth2TokenStorage.shared.token
-//    static let shared = ProfileImageService()
-//    init() {}
-//    private (set) var profileImageURL: String?
+//  ProfileImageService.swift
+//  EndlessImageFeed
 //
+//  Created by Александра Коснырева on 21.04.2024.
 //
-//    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
-//        task?.cancel()
-//        guard let request = makeProfileImageRequest(token: token ?? "Error! No token") else {
-//            completion(.failure(NetworkError.invalidRequest))
-//            return
-//        }
-//        task = fetchProfileImageInfo(request: request) { [weak self] responce in
-//            self?.task = nil
-//            switch responce {
-//            case .success(let result):
-//                completion(.success(result.profileImage ?? "Error! No profile image."))
-//                print("\(String(describing: result.profileImage))")
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
-//    }
-//
-//    private func makeProfileImageRequest(token: String) -> URLRequest? {
-//        let urlString = "https://api.unsplash.com//users/:username"
-//
-//        guard let url = URL(string: urlString) else {
-//            print("Failed to create URL with baseURL and parameters.")
-//            return nil
-//        }
-//        var request = URLRequest(url: url)
-//        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//        request.httpMethod = "GET"
-//        print(request)
-//        return request
-//    }
-//
-//    func fetchProfileImageInfo(request: URLRequest, completion: @escaping (Result<ProfileResult,Error>) -> Void) -> URLSessionTask {
-//        let _: (Result<ProfileResult,Error>) -> Void = {
-//            result  in
-//            DispatchQueue.main.async {
-//                completion(result)
-//            }
-//        }
-//        let task = urlSession.dataTask(with: request) { [weak self] data, response, error  in
-//            DispatchQueue.main.async {
-//                if let error = error {
-//                    completion(.failure(error))
-//                    return
-//                }
-//                guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-//                    let error = NSError(domain: "HTTP", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil)
-//                    completion(.failure(error))
-//                    return
-//                }
-//
-//                guard let data = data else {
-//                    let error = NSError(domain: "Data", code: -1, userInfo: nil)
-//                    completion(.failure(error))
-//                    return
-//                }
-//                do {
-//                    let decoder = JSONDecoder()
-//                    print(data)
-//                    let response = try decoder.decode(ProfileResult.self, from: data)
-//                    let resultFetchImageStorage = ProfileStorage()
-//                    resultFetchImageStorage.profileImage = response.profileImage ?? "Error! No profile Image"
-//                    let profileResult = ProfileResult(
-//                        userName: response.userName,
-//                        profileImage: response.profileImage
-//                    )
-//                    completion(.success(profileResult))
-//                } catch {
-//                    completion(.failure(error))
-//                    self?.task = nil
-//                }
-//            }
-//            guard (self?.task) != nil else {
-//                return
-//            }
-//        }
-//        task.resume()
-//        return task
-//    }
-//}
+
+import Foundation
+final class ProfileImageService {
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var token = OAuth2TokenStorage.shared.token
+    static let shared = ProfileImageService()
+    init() {}
+    private (set) var profileImageURL: String?
+    private var profileImage = ProfileImage()
+    private var profileService = ProfileService.shared
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+        
+    
+    
+    private func makeProfileImageRequest() -> URLRequest? {
+        guard let userName = profileService.profile?.username else {
+            print("No user name to create a request for fetch profileImage")
+            return nil
+        }
+        
+        let urlString = "https://api.unsplash.com/users/\(userName)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Failed to create URL with baseURL and parameters.")
+            return nil
+        }
+        var request = URLRequest(url: url)
+       
+        let token = OAuth2TokenStorage.shared.token
+        if token != nil {
+            request.setValue("Bearer \(token ?? "her vam a ne token")", forHTTPHeaderField: "Authorization")
+            request.httpMethod = "GET"
+            print(request)
+            return request
+        }
+        else { print("no token to make request") }
+        return nil
+    }
+    
+    func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+      
+        guard let request1 = makeProfileImageRequest()else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+        
+        task = urlSession.objectTask(for: request1) { [weak self] (result: Result<UserResult, Error>) in
+            switch result {
+            case .success(let response):
+                print("\(response.profileImage.small)")
+                guard let profileImageURL = response.profileImage.small else {return}
+                self?.profileImageURL = profileImageURL
+                print("\(String(describing: profileImageURL))")
+                DispatchQueue.main.async {
+                    completion(.success(profileImageURL))
+                               NotificationCenter.default.post (
+                                   name: ProfileImageService.didChangeNotification,
+                                   object: self,
+                                   userInfo: ["URL": profileImageURL]
+                               )
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    print("\(result)")
+                    print("\(error)")
+                    completion(.failure(error))
+                }
+            }
+        }
+      
+    }
+}

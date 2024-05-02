@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 final class OAuth2TokenStorage {
     // Вычислимое свойство token
     var token: String? {
@@ -22,3 +23,26 @@ final class OAuth2TokenStorage {
     static let shared = OAuth2TokenStorage()
 }
 
+//
+//class OAuthTokenStorage: OAuthTokenStorageProtocol {
+//    static let shared = OAuthTokenStorage()
+//    private let keychain = KeychainWrapper.standard
+//
+//    private enum KeysToStore: String {
+//        case token
+//    }
+//
+//    private init() {}
+//
+//    var token: String? {
+//        keychain.string(forKey: KeysToStore.token.rawValue)
+//    }
+//
+//    func storeToken(token: String?) {
+//        guard let token else {
+//            keychain.removeObject(forKey: KeysToStore.token.rawValue)
+//            return
+//        }
+//        keychain.set(token, forKey: KeysToStore.token.rawValue)
+//    }
+//}

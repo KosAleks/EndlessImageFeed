@@ -12,21 +12,35 @@ struct ProfileResult: Codable {
     var firstName: String?
     var lastName: String?
     var bio: String?
-    var profileImage: ProfileImage?
+    
     
     private enum CodingKeys: String, CodingKey{
         case userName = "username"
         case firstName = "first_name"
         case lastName = "last_name"
         case bio = "bio"
-        case profileImage = "profile_image"
     }
 }
 
-struct ProfileImage: Codable {
+struct UserResult: Codable {
+    var profileImage: ProfileImage
+    
+    private enum CodingKeys: String, CodingKey {
+        case profileImage = "profile_image"
+            }
+}
+
+struct ProfileImage : Codable {
     var small: String?
     var medium: String?
     var large: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case small = "small"
+        case medium = "medium"
+        case large = "large"
+
+    }
 }
 
 struct Profile {
@@ -46,5 +60,7 @@ extension Profile {
             bio: profileResult.bio ?? "no bio"
         )
     }
+    
 }
+
 

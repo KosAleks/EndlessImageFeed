@@ -20,53 +20,5 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F7C7CB2E-6286-4BE5-BBD2-41BA504DD52D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EndlessImageFeed/Auth/SplashViewController/SplashViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "fetchProfile(token:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F7C7CB2E-6286-4BE5-BBD2-41BA504DD52D - 32b0ca9aeb0d6450"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;EndlessImageFeed.Profile, Swift.Error&gt;) -&gt; () in EndlessImageFeed.SplashViewController.fetchProfile(token: Swift.String) -&gt; ()"
-                  moduleName = "EndlessImageFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/SplashViewController/SplashViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "204">
-               </Location>
-               <Location
-                  uuid = "F7C7CB2E-6286-4BE5-BBD2-41BA504DD52D - 87afb677f5f2b62c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;EndlessImageFeed.Profile, Swift.Error&gt;) -&gt; () in EndlessImageFeed.SplashViewController.fetchProfile(token: Swift.String) -&gt; ()"
-                  moduleName = "EndlessImageFeed"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aleksandrakosnyreva/Documents/EndlessImageFeed/EndlessImageFeed/Auth/SplashViewController/SplashViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68"
-                  offsetFromSymbolStart = "98">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

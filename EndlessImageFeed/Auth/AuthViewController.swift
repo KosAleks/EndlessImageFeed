@@ -30,6 +30,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             case .failure(let error):
                 print("Failed to fetch OAuth token with error: \(error)")
                 vc.dismiss(animated: true)
+                self.showAlert()
             }
             UIBlockingProgressHUD.dismiss()
         }
@@ -63,5 +64,14 @@ extension AuthViewController {
         } else {
             super.prepare(for: segue, sender: sender)
         }
+    }
+    func showAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }

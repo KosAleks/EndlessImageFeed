@@ -13,5 +13,7 @@ enum NetworkError: Error {
     case urlSessionError
     case invalidRequest
     case decodingError
+    case dataError
+    case taskError
 }
 

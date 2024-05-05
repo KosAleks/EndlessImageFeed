@@ -54,6 +54,7 @@ extension URLSession {
                 } catch {
                     DispatchQueue.main.async {
                         completion(.failure(error))
+                        print("Ошибка декодирования: (\(error.localizedDescription)")
                     }
                 }
             }

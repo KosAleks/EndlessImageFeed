@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private var profileStorage = ProfileStorage()
@@ -14,6 +15,8 @@ final class ProfileViewController: UIViewController {
     private let userMailLabel = UILabel()
     private let greetingLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
+    
+    var profileAvatar = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +33,13 @@ final class ProfileViewController: UIViewController {
         
         
         view.backgroundColor  = UIColor(named: "YP Black")
-        let profileImage = UIImage(named: "UserPhoto")
-        let imageView = UIImageView(image: profileImage)
-        view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+        
+        view.addSubview(profileAvatar)
+        profileAvatar.translatesAutoresizingMaskIntoConstraints = false
+        profileAvatar.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        profileAvatar.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        profileAvatar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
+        profileAvatar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         let userNameLabel = UILabel()
         // userNameLabel.text = profileStorage.firstName + " " + profileStorage.lastName
@@ -45,8 +47,8 @@ final class ProfileViewController: UIViewController {
         userNameLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
         view.addSubview(userNameLabel)
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
-        userNameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+        userNameLabel.topAnchor.constraint(equalTo: profileAvatar.bottomAnchor, constant: 8).isActive = true
+        userNameLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
         
         let userMailLabel = UILabel()
         //   userMailLabel.text = "@" + profileStorage.userName
@@ -56,7 +58,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(userMailLabel)
         userMailLabel.translatesAutoresizingMaskIntoConstraints = false
         userMailLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8).isActive = true
-        userMailLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+        userMailLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
         
         let greetingLabel = UILabel()
         // greetingLabel.text = profileStorage.bio
@@ -65,7 +67,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(greetingLabel)
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.topAnchor.constraint(equalTo: userMailLabel.bottomAnchor, constant: 8).isActive = true
-        greetingLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+        greetingLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
         
         updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
         
@@ -78,7 +80,7 @@ final class ProfileViewController: UIViewController {
         exitButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
-        exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        exitButton.centerYAnchor.constraint(equalTo: profileAvatar.centerYAnchor).isActive = true
         
         func updateProfileDetails(profile: Profile) {
             
@@ -89,11 +91,14 @@ final class ProfileViewController: UIViewController {
             return
         }
     }
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.profileImageURL,
             let url = URL(string: profileImageURL)
         else { return }
-        // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
+        
+        profileAvatar.kf.setImage(with: url)
+        print("\(profileAvatar)")
     }
 }

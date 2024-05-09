@@ -123,6 +123,8 @@
 		230858832B58055400E39914 /* EndlessImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				230858862B58055400E39914 /* SceneDelegate.swift */,
+				230858842B58055400E39914 /* AppDelegate.swift */,
 				233C61EB2B95F15400BDE41E /* SplashViewController */,
 				23BE1DA52BEBFB5900E907D9 /* TabBarController */,
 				237982392BA74B5A00F9C1A4 /* Profile */,
@@ -130,8 +132,6 @@
 				23B8ED702B87669D008DE611 /* Auth */,
 				23E8C6FF2B7BB496007B6B17 /* SingleImageViewController.swift */,
 				23059D5A2B864A2C00C9334F /* Constants.swift */,
-				230858842B58055400E39914 /* AppDelegate.swift */,
-				230858862B58055400E39914 /* SceneDelegate.swift */,
 				2308588A2B58055400E39914 /* Main.storyboard */,
 				23059D542B8633FB00C9334F /* Resources */,
 				2308588D2B58057800E39914 /* Assets.xcassets */,
@@ -451,7 +451,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EndlessImageFeed/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -484,7 +484,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EndlessImageFeed/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

@@ -11,14 +11,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)                   // 1 Создаём окно UIWindow с заданной сценой.
-        window?.rootViewController = UIStoryboard(              // 2 даём и устанавливаем корневой View Controller для окна. Так как сейчас SplashViewController свёрстан в Storyboard, он создаётся методом instantiateInitialViewController. Если же View полностью сверстать в коде, можно создавать его, используя конструктор по умолчанию SplashViewController().
-            name: "Main",
-            bundle: .main
-        ).instantiateInitialViewController()
+        window?.rootViewController = SplashViewController()
         window?.makeKeyAndVisible()
     }
 

@@ -214,84 +214,20 @@
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <connections>
-                        <segue destination="beW-ob-C9h" kind="relationship" relationship="rootViewController" id="tfT-Tu-ugX"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIh-Kl-dqw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1685" y="343"/>
         </scene>
-        <!--Auth View Controller-->
-        <scene sceneID="pkj-77-GpN">
-            <objects>
-                <viewController id="beW-ob-C9h" customClass="AuthViewController" customModule="EndlessImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TGT-HJ-f0U">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRo-yj-0e6" userLabel="enterButton">
-                                <rect key="frame" x="32" y="690" width="329" height="48"/>
-                                <color key="backgroundColor" name="YP White"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="yG7-DY-OgI"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Войти">
-                                            <attributes>
-                                                <font key="NSFont" size="17" name="YSDisplay-Bold"/>
-                                                <font key="NSOriginalFont" size="12" name="Helvetica"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <color key="baseForegroundColor" name="YP Black"/>
-                                </buttonConfiguration>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="16"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <segue destination="mdk-Mf-aU1" kind="show" identifier="ShowWebView" id="OKM-h9-RS6"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AuthLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Nje-Vp-kvW" userLabel="authLogo">
-                                <rect key="frame" x="166.66666666666666" y="337" width="60" height="237"/>
-                            </imageView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="mUW-HG-3rF"/>
-                        <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstItem="eRo-yj-0e6" firstAttribute="centerX" secondItem="Nje-Vp-kvW" secondAttribute="centerX" id="Ep8-5k-Vg2"/>
-                            <constraint firstItem="eRo-yj-0e6" firstAttribute="top" secondItem="Nje-Vp-kvW" secondAttribute="bottom" constant="116" id="N2C-NR-E12"/>
-                            <constraint firstItem="eRo-yj-0e6" firstAttribute="leading" secondItem="TGT-HJ-f0U" secondAttribute="leadingMargin" constant="16" id="dSF-AT-bgh"/>
-                            <constraint firstItem="mUW-HG-3rF" firstAttribute="bottom" secondItem="eRo-yj-0e6" secondAttribute="bottom" constant="80" id="for-TF-qt5"/>
-                            <constraint firstItem="Nje-Vp-kvW" firstAttribute="centerX" secondItem="TGT-HJ-f0U" secondAttribute="centerX" id="ggQ-SU-yfI"/>
-                            <constraint firstItem="Nje-Vp-kvW" firstAttribute="top" secondItem="mUW-HG-3rF" secondAttribute="top" constant="234" id="syH-ww-4KD"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="KUk-IK-8Zh"/>
-                    <connections>
-                        <outlet property="authLogo" destination="Nje-Vp-kvW" id="Ynw-9V-oaP"/>
-                        <outlet property="enterButton" destination="eRo-yj-0e6" id="8Zu-6o-Owk"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="T5g-dO-QYG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-466" y="343"/>
-        </scene>
         <!--WebViewViewController-->
         <scene sceneID="2cF-kC-t7X">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="mdk-Mf-aU1" userLabel="WebViewViewController" customClass="WebViewViewController" customModule="EndlessImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="webViewViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mdk-Mf-aU1" userLabel="WebViewViewController" customClass="WebViewViewController" customModule="EndlessImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PBw-jc-WW2">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZAK-8E-rwa" userLabel="webView">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -299,7 +235,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-SX-9ju">
-                                <rect key="frame" x="16" y="103" width="377" height="2.6666666666666714"/>
+                                <rect key="frame" x="16" y="59" width="377" height="2.6666666666666643"/>
                                 <color key="tintColor" name="YP Black"/>
                             </progressView>
                         </subviews>
@@ -330,7 +266,6 @@
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
-        <image name="AuthLogo" width="60" height="60"/>
         <image name="Backward 24x24" width="24" height="24"/>
         <image name="Icon 42x42 ActiveLike" width="42" height="42"/>
         <image name="Sharing1 50x50" width="51" height="51"/>

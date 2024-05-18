@@ -11,7 +11,6 @@ import WebKit
 
 final class WebViewViewController: UIViewController {
     private var estimatedObservation: NSKeyValueObservation?
-    weak var authViewDelegate: WebViewViewControllerDelegate?
     enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
@@ -59,7 +58,7 @@ extension WebViewViewController:  WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             if let code = code(from: navigationAction) {
-                authViewDelegate?.webViewViewController(self, didAuthenticateWithCode: code)
+                delegate?.webViewViewController(self, didAuthenticateWithCode: code)
                 decisionHandler(.cancel)
             } else {
                 decisionHandler(.allow)

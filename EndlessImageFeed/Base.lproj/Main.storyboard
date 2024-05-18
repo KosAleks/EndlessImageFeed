@@ -205,20 +205,6 @@
             </objects>
             <point key="canvasLocation" x="759.5419847328244" y="-1254.2253521126761"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Q77-Ne-ONl">
-            <objects>
-                <navigationController useStoryboardIdentifierAsRestorationIdentifier="YES" id="O6y-vU-0dM" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="9jp-vN-4Wj"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zwf-7V-2Fe">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AIh-Kl-dqw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1685" y="343"/>
-        </scene>
         <!--WebViewViewController-->
         <scene sceneID="2cF-kC-t7X">
             <objects>

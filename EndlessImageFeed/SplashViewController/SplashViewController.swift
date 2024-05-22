@@ -22,8 +22,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     }
     
     private func create() {
-        view.backgroundColor = .green
-        // view.backgroundColor  = UIColor(named: "YP Black")
+        view.backgroundColor  = UIColor(named: "YP Black")
         view.addSubview(imageLaunchScreen)
         imageLaunchScreen.image = UIImage(named: "ImageLaunchScreen")
         imageLaunchScreen.translatesAutoresizingMaskIntoConstraints = false
@@ -47,8 +46,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private func switchToAuthViewController() {
         let authViewController = AuthViewController()
         authViewController.delegate = self
-//        let navigationController = UINavigationController(rootViewController: authViewController)
-//        navigationController.navigationBar.topItem?.title = ""
         authViewController.modalPresentationStyle = .fullScreen
         present(authViewController, animated: true)
     }
@@ -80,9 +77,7 @@ extension SplashViewController {
             profileService.fetchProfile(token: token, completion: { [weak self] result in
                 UIBlockingProgressHUD.dismiss()
                 DispatchQueue.main.async { [self] in
-//                                        guard let self = self else {
-//                                            return
-//                                        }
+
                     switch result {
                     case .success(_):
                         self?.profileImageService.fetchProfileImageURL(username: self?.profileService.profile?.username ?? "No username to feth profileImage", completion: { _ in})

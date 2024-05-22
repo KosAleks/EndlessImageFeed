@@ -18,9 +18,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        // ProgressHUD.showBanner("Загрузка выполняется", "пожалуйста, дождитесь результата")
         UIBlockingProgressHUD.show()
-        
         oauth2Service.fetchOAuthToken(code) { result in
             switch result {
             case .success(let token):
@@ -34,7 +32,9 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             UIBlockingProgressHUD.dismiss()
         }
     }
-    
+    deinit {
+        print(">>>>>>> deinit")
+    }
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
@@ -62,7 +62,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         enterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90).isActive = true
         enterButton.backgroundColor = UIColor(named: "YP White")
         enterButton.setTitle("Войти", for: .normal)
-     //   enterButton.titleLabel?.textColor = UIColor(named: "YP Black")
         enterButton.layer.cornerRadius = 16
         enterButton.setTitleColor(UIColor(named: "YP Black"), for: .normal)
         enterButton.addTarget(self, action: #selector(didTapEnterButton), for: .touchUpInside)
@@ -81,23 +80,24 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     }
 
     @objc private func didTapEnterButton() {
-        let webViewViewController = WebViewViewController()
+       guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "webViewViewController") as? WebViewViewController
+        else {
+           return
+       }
         webViewViewController.delegate = self
-        self.navigationController?.pushViewController(webViewViewController, animated: true)
-        switchToWebViewViewController()
-        
+        present(webViewViewController, animated: true)
     }
 
-private func switchToWebViewViewController() {
-    guard let window = UIApplication.shared.windows.first else {
-        assertionFailure("Invalid window configuration")
-        return
-    }
-    let webViewController = UIStoryboard(name: "Main", bundle: .main)
-        .instantiateViewController(withIdentifier: "webViewViewController")
-    window.rootViewController = webViewController
-}
-
+//private func switchToWebViewViewController() {
+//    guard let window = UIApplication.shared.windows.first else {
+//        assertionFailure("Invalid window configuration")
+//        return
+//    }
+//    let webViewController = UIStoryboard(name: "Main", bundle: .main)
+//        .instantiateViewController(withIdentifier: "webViewViewController")
+//    window.rootViewController = webViewController
+//}
+//
 
     func showAlert() {
         let alert = UIAlertController(

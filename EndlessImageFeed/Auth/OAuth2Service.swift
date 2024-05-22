@@ -43,17 +43,13 @@ final class OAuth2Service {
             if lastCode != code { // Проверяем, что в последнем запросе, который сейчас в процессе выполнения, значение code такое же, как в переданном аргументе. Если значение не совпадает, нужно отменить предыдущий запрос и выполнить новый.
                 task?.cancel()
             } else {
-                DispatchQueue.main.async {
                     completion(.failure(AuthServiceError.invalidRequest))
-                }
                 self.task = nil
                 return
             }
         } else {
             if lastCode == code { // если значение совпадает, то ничего не делаем, - мы уже получили токен и запроса POST не идет
-                DispatchQueue.main.async{
                     completion(.failure(AuthServiceError.invalidRequest))
-                }
                 return
             }
         }

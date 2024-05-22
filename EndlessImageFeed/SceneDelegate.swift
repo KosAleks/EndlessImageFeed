@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        KeychainWrapper.standard.removeAllKeys()
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)                   // 1 Создаём окно UIWindow с заданной сценой.
         window?.rootViewController = SplashViewController()

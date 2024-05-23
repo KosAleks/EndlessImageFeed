@@ -36,7 +36,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         super.viewDidAppear(animated)
         
         if token != nil {
-            switchToTabBarController()
             fetchProfile(token: token ?? "No token at this moment.")
         } else {
             switchToAuthViewController()
@@ -47,7 +46,11 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
         let authViewController = AuthViewController()
         authViewController.delegate = self
         authViewController.modalPresentationStyle = .fullScreen
-        present(authViewController, animated: true)
+        
+        let navVC = UINavigationController(rootViewController: authViewController)
+        navVC.modalPresentationStyle = .fullScreen
+        
+        present(navVC, animated: true)
     }
     
     private func switchToTabBarController() {
@@ -68,7 +71,6 @@ extension SplashViewController {
             return
         }
         fetchProfile(token: token)
-        switchToTabBarController()
     }
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
@@ -77,7 +79,7 @@ extension SplashViewController {
             profileService.fetchProfile(token: token, completion: { [weak self] result in
                 UIBlockingProgressHUD.dismiss()
                 DispatchQueue.main.async { [self] in
-
+                    
                     switch result {
                     case .success(_):
                         self?.profileImageService.fetchProfileImageURL(username: self?.profileService.profile?.username ?? "No username to feth profileImage", completion: { _ in})

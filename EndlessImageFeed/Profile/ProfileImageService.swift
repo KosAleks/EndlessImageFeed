@@ -16,7 +16,7 @@ final class ProfileImageService {
     private var profileImage = ProfileImage()
     private var profileService = ProfileService.shared
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
-        
+    
     
     
     private func makeProfileImageRequest() -> URLRequest? {
@@ -32,7 +32,7 @@ final class ProfileImageService {
             return nil
         }
         var request = URLRequest(url: url)
-       
+        
         let token = OAuth2TokenStorage.shared.token
         if token != nil {
             request.setValue("Bearer \(token ?? "her vam a ne token")", forHTTPHeaderField: "Authorization")
@@ -46,7 +46,7 @@ final class ProfileImageService {
     
     func fetchProfileImageURL(username: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-      
+        
         guard let request1 = makeProfileImageRequest()else {
             completion(.failure(NetworkError.invalidRequest))
             return
@@ -61,11 +61,11 @@ final class ProfileImageService {
                 print("\(String(describing: profileImageURL))")
                 DispatchQueue.main.async {
                     completion(.success(profileImageURL))
-                               NotificationCenter.default.post (
-                                   name: ProfileImageService.didChangeNotification,
-                                   object: self,
-                                   userInfo: ["URL": profileImageURL]
-                               )
+                    NotificationCenter.default.post (
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": profileImageURL]
+                    )
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -75,6 +75,6 @@ final class ProfileImageService {
                 }
             }
         }
-      
+        
     }
 }

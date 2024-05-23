@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
 final class ProfileStorage {
     var userName: String {
         get {
             // Возвращаем сохраненное значение имени пользователя из UserDefaults
             return UserDefaults.standard.string(forKey: "userName") ?? "There is no name"
+            // KeychainWrapper.standard.removeAllKeys()
         }
         set {
             // При установке нового значения имени пользователя сохраняем его в UserDefaults

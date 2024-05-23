@@ -17,51 +17,47 @@ extension URLSession {
         if task != nil {
             task?.cancel()
         }
+        let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
         let session = URLSession.shared
         let task = session.dataTask(with: request, completionHandler: { data, response, error  in
             DispatchQueue.main.async {
                 if let error = error {
-                    DispatchQueue.main.async{
-                        completion(.failure(error))
-                    }
-                    return
+                    fulfillCompletionOnTheMainThread(.failure(error))
+                    print("\(NetworkError.urlRequestError(error))")
                 }
-                guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-                    let error = NSError(domain: "HTTP", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil)
-                    DispatchQueue.main.async{
-                        completion(.failure(error))
-                        print("\(response)")
-                        print("\(error)")
-                    }
-                    return
-                }
-                guard let data = data else {
-                    let error = NSError(domain: "Data", code: -1, userInfo: nil)
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    let response = try decoder.decode(T.self, from: data)
-                    let jSonString = String(data: data, encoding: .utf8)
-                    print("\(String(describing: jSonString))")
-                    DispatchQueue.main.async {
-                        completion(.success(response))
-                        print("\(response)")
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                        print("Ошибка декодирования: (\(error.localizedDescription)")
-                    }
-                }
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
+                let error = NSError(domain: "HTTP", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil)
+                let statusCode = error.code
+                fulfillCompletionOnTheMainThread(.failure(error))
+                print("\(NetworkError.httpStatusCode(statusCode))")
+                return
+            }
+            guard let data = data else {
+                let error = NSError(domain: "Data", code: -1, userInfo: nil)
+                fulfillCompletionOnTheMainThread(.failure(error))
+                print("\(NetworkError.dataError)")
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(T.self, from: data)
+                let jSonString = String(data: data, encoding: .utf8)
+                print("\(String(describing: jSonString))")
+                fulfillCompletionOnTheMainThread(.success(response))
+            } catch {
+                fulfillCompletionOnTheMainThread(.failure(error))
+                print("Ошибка декодирования: (\(error.localizedDescription)")
             }
         })
         task.resume()
         return task
     }
 }
-    
+
 

@@ -55,7 +55,7 @@ final class ProfileService {
                     firstName: response.firstName,
                     lastName: response.lastName,
                     bio: response.bio ?? "No bio info"
-                    )
+                )
                 
                 self.profile = Profile(profileResult: profileResult)
                 
@@ -70,6 +70,6 @@ final class ProfileService {
         }
     }
 }
-                    
-        
-        
+
+
+

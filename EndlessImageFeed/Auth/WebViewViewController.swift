@@ -44,15 +44,15 @@ final class WebViewViewController: UIViewController {
         estimatedObservation = webView.observe(
             \.estimatedProgress,
              options: [],
-            changeHandler: {[weak self] _, _ in
-                guard let self = self else {return}
-                self.updateProgress()
-            })
+             changeHandler: {[weak self] _, _ in
+                 guard let self = self else {return}
+                 self.updateProgress()
+             })
     }
 }
 
 extension WebViewViewController:  WKNavigationDelegate {
-
+    
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction,

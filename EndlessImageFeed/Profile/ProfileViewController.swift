@@ -20,7 +20,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor  = UIColor(named: "YP Black")
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
             object: nil,
@@ -31,9 +31,6 @@ final class ProfileViewController: UIViewController {
         }
         updateAvatar()
         
-        
-        view.backgroundColor  = UIColor(named: "YP Black")
-        
         view.addSubview(profileAvatar)
         profileAvatar.translatesAutoresizingMaskIntoConstraints = false
         profileAvatar.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -42,7 +39,6 @@ final class ProfileViewController: UIViewController {
         profileAvatar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         
         let userNameLabel = UILabel()
-        // userNameLabel.text = profileStorage.firstName + " " + profileStorage.lastName
         userNameLabel.textColor = UIColor(named: "YP White")
         userNameLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
         view.addSubview(userNameLabel)
@@ -51,7 +47,6 @@ final class ProfileViewController: UIViewController {
         userNameLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
         
         let userMailLabel = UILabel()
-        //   userMailLabel.text = "@" + profileStorage.userName
         userMailLabel.textColor = UIColor(named: "YP Gray")
         userMailLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
         
@@ -61,7 +56,6 @@ final class ProfileViewController: UIViewController {
         userMailLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
         
         let greetingLabel = UILabel()
-        // greetingLabel.text = profileStorage.bio
         greetingLabel.textColor = UIColor(named: "YP White")
         greetingLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
         view.addSubview(greetingLabel)
@@ -97,7 +91,6 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.profileImageURL,
             let url = URL(string: profileImageURL)
         else { return }
-        
         profileAvatar.kf.setImage(with: url)
         print("\(profileAvatar)")
     }

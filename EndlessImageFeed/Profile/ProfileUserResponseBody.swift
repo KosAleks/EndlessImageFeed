@@ -27,7 +27,7 @@ struct UserResult: Codable {
     
     private enum CodingKeys: String, CodingKey {
         case profileImage = "profile_image"
-            }
+    }
 }
 
 struct ProfileImage : Codable {
@@ -39,7 +39,7 @@ struct ProfileImage : Codable {
         case small = "small"
         case medium = "medium"
         case large = "large"
-
+        
     }
 }
 

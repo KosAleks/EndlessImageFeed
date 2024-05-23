@@ -78,27 +78,16 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
     }
-
+    
     @objc private func didTapEnterButton() {
-       guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "webViewViewController") as? WebViewViewController
+        guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "webViewViewController") as? WebViewViewController
         else {
-           return
-       }
+            return
+        }
         webViewViewController.delegate = self
-        present(webViewViewController, animated: true)
+        show(webViewViewController, sender: nil)
     }
-
-//private func switchToWebViewViewController() {
-//    guard let window = UIApplication.shared.windows.first else {
-//        assertionFailure("Invalid window configuration")
-//        return
-//    }
-//    let webViewController = UIStoryboard(name: "Main", bundle: .main)
-//        .instantiateViewController(withIdentifier: "webViewViewController")
-//    window.rootViewController = webViewController
-//}
-//
-
+    
     func showAlert() {
         let alert = UIAlertController(
             title: "Что-то пошло не так(",

@@ -11,6 +11,9 @@ final class ImageListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     private let photosName: [String] = Array(0..<20).map{("\($0)")}
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListservice = ImagesListService()
+    private (set) var photos: [Photo] = []
+    private let profileService = ProfileService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,9 +80,38 @@ extension ImageListViewController: UITableViewDataSource {
         let scale = imageViewWidth / imageWidth
         let cellHeidht = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeidht
-        
-        
     }
-}
+    
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        guard let userName = profileService.profile?.username else {
+            print("No user name to create a request for fetch profileImage")
+            return
+        }
+       // if indexPath.row + 1 == photos.count  {
+            imagesListservice.fetchPhotosNextPage(username: userName) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let newPhotos):
+                    // Добавляем новые фотографии в существующий массив
+                    self.photos.append(contentsOf: newPhotos)
+                    // Обновляем таблицу
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    // Обрабатываем ошибку, например, показываем пользователю сообщение
+                    print("Failed to fetch photos: \(error.localizedDescription)")
+                }
+            }
+//        } else {
+//            return
+        }
+    }
+
+
 
 

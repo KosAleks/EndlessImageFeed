@@ -67,7 +67,6 @@ final class OAuth2Service {
             switch result {
             case .success(let response):
                 OAuth2TokenStorage.shared.token = response.accessToken
-                print(response.accessToken)
                 DispatchQueue.main.async {
                     completion(.success(response.accessToken))
                 }

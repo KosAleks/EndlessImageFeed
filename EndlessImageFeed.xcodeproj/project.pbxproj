@@ -125,8 +125,7 @@
 		230858832B58055400E39914 /* EndlessImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				230858862B58055400E39914 /* SceneDelegate.swift */,
-				230858842B58055400E39914 /* AppDelegate.swift */,
+				23B95BEB2C06655F00F4654E /* Constants */,
 				2366817C2C00FE13000668C9 /* Services */,
 				2366817D2C00FE9B000668C9 /* Controllers */,
 				2366817E2C00FF11000668C9 /* Delegates */,
@@ -137,7 +136,6 @@
 				2308588F2B58057800E39914 /* LaunchScreen.storyboard */,
 				230858922B58057800E39914 /* Info.plist */,
 				2308588A2B58055400E39914 /* Main.storyboard */,
-				23059D5A2B864A2C00C9334F /* Constants.swift */,
 				2376E5822B99135E00F53A96 /* URL Session + Data.swift */,
 				2379823C2BA74BE600F9C1A4 /* UIBlockingProgressHUD.swift */,
 				23B4314C2BD69D3A005D6DA1 /* GenericUrlSession.swift */,
@@ -173,6 +171,8 @@
 		2366817E2C00FF11000668C9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				230858862B58055400E39914 /* SceneDelegate.swift */,
+				230858842B58055400E39914 /* AppDelegate.swift */,
 				23C8FA8A2B88F61400F46B59 /* WebViewViewControllerDelegate.swift */,
 				23B4F6AF2B95F996007D10C3 /* AuthViewControllerDelegate.swift */,
 			);
@@ -204,6 +204,14 @@
 				234A0B102B951B850087E01E /* OAuthTokenResponseBody.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		23B95BEB2C06655F00F4654E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				23059D5A2B864A2C00C9334F /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

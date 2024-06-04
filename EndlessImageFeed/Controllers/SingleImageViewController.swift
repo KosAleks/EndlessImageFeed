@@ -1,9 +1,9 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage! {
+    var image: UIImage? {
         didSet {
-            guard isViewLoaded else { return }
+            guard isViewLoaded, let image else { return }
             imageView.image = image
             rescaleAndCenterImageInScrollView(image: image)
         }
@@ -21,6 +21,7 @@ final class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         imageView.image = image
+        guard let image else {return}
         rescaleAndCenterImageInScrollView(image: image)
         view.backgroundColor = UIColor(named: "YP Black")
     }

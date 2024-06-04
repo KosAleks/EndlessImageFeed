@@ -37,7 +37,6 @@ final class ProfileImageService {
         if token != nil {
             request.setValue("Bearer \(token ?? "her vam a ne token")", forHTTPHeaderField: "Authorization")
             request.httpMethod = "GET"
-            print(request)
             return request
         }
         else { print("no token to make request") }
@@ -55,10 +54,10 @@ final class ProfileImageService {
         task = urlSession.objectTask(for: request1) { [weak self] (result: Result<UserResult, Error>) in
             switch result {
             case .success(let response):
-                print("\(response.profileImage.small)")
+              
                 guard let profileImageURL = response.profileImage.small else {return}
                 self?.profileImageURL = profileImageURL
-                print("\(String(describing: profileImageURL))")
+               
                 DispatchQueue.main.async {
                     completion(.success(profileImageURL))
                     NotificationCenter.default.post (

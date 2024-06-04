@@ -6,31 +6,56 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ImageListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
-    private let photosName: [String] = Array(0..<20).map{("\($0)")}
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let imagesListservice = ImagesListService()
-    private (set) var photos: [Photo] = []
+    private (set) var photos = [Photo]()
     private let profileService = ProfileService.shared
+    private var imageListServiceObserver: NSObjectProtocol?
+    private var imageListCell = ImageListCell()
+    private let placeholder = UIImage(named: "placeholder")
+    
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+    if indexPath.row + 1 == photos.count  {
+            fetchPhotos()
+        } else {
+            return
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        fetchPhotos()
+        imageListServiceObserver = NotificationCenter.default.addObserver(
+            forName: ImagesListService.didChangeNotification ,
+            object: nil,
+            queue: .main)
+        {[weak self] _ in
+            guard let self = self else {return}
+            self.updateTableViewAnimated()
+        }
+        updateTableViewAnimated()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
-            let indexPath = sender as! IndexPath
-            let imageName = photosName[indexPath.row]
-            let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
+    if segue.identifier == ShowSingleImageSegueIdentifier {
+    let viewController = segue.destination as! SingleImageViewController
+    let indexPath = sender as! IndexPath
+    let photo = imagesListservice.photos[indexPath.row]
+    let imageURL = photo.thumbImageURL
+         
+    } else {
+                super.prepare(for: segue, sender: sender)
+            }
         }
-    }
     private lazy var dateFormated: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -41,17 +66,12 @@ final class ImageListViewController: UIViewController {
 }
 extension ImageListViewController {
     func configCell(for cell: ImageListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return
-        }
-        cell.imageCell.image = image
         cell.dataLabel.text = dateFormated.string(from: Date())
-        let isLiked = indexPath.row % 2 == 0
-        let likedImage = isLiked ? UIImage(named: "Icon 42x42 ActiveLike") : UIImage(named: "Icon 42x42 NoActiveLike1")
+        let likedImage = UIImage(named: "Icon 42x42 NoActiveLike1")
         cell.likeButtonActive.setImage(likedImage, for: .normal)
     }
-    
 }
+
 
 extension ImageListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -60,58 +80,72 @@ extension ImageListViewController: UITableViewDelegate {
 }
 extension ImageListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photosName.count
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImageListCell.reuseIdentifier, for: indexPath)
-        guard let imageListcell = cell as? ImageListCell else {
-            return UITableViewCell()
-        }
-        configCell(for: imageListcell, with: indexPath)
-        return imageListcell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return 0
-        }
-        let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-        let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
-        let imageWidth = image.size.width
-        let scale = imageViewWidth / imageWidth
-        let cellHeidht = image.size.height * scale + imageInsets.top + imageInsets.bottom
-        return cellHeidht
+        return photos.count
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        willDisplay cell: UITableViewCell,
-        forRowAt indexPath: IndexPath
-    ) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImageListCell.reuseIdentifier, for: indexPath)
+        guard let imageListCell = cell as? ImageListCell
+        else {
+            return UITableViewCell()
+        }
+        let photo = imagesListservice.photos[indexPath.row]
+        if let url = URL(string: photo.thumbImageURL ?? "") {
+            imageListCell.imageCell.kf.setImage(with: url, completionHandler: { [weak self] _ in
+                guard let self = self else {return}
+            })
+        }
+        return imageListCell
+    }
+                                           
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            
+            let photo = imagesListservice.photos[indexPath.row]
+            let photoInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+            let photoViewWidth = tableView.bounds.width - photoInsets.right - photoInsets.left
+            guard let photoWidth = photo.size?.width else { return 0.0 }
+            let scale = photoViewWidth / photoWidth
+            let cellHeidht = (photo.size?.height ?? 0.0) * scale + photoInsets.bottom
+            return cellHeidht
+        }
+    
+    private func  updateTableViewAnimated() {
+              let oldCount = photos.count
+              let newCount = imagesListservice.photos.count
+              self.photos = imagesListservice.photos
+              if oldCount != newCount {
+        tableView.performBatchUpdates {
+            let indexPaths = (oldCount..<newCount).map { i in
+                IndexPath(row: i, section: 0)
+            }
+            tableView.insertRows(at: indexPaths, with: .automatic)
+        } completion: { _ in }
+    }
+            }
+    private func fetchPhotos() {
         guard let userName = profileService.profile?.username else {
             print("No user name to create a request for fetch profileImage")
             return
         }
-       // if indexPath.row + 1 == photos.count  {
-            imagesListservice.fetchPhotosNextPage(username: userName) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let newPhotos):
-                    // Добавляем новые фотографии в существующий массив
-                    self.photos.append(contentsOf: newPhotos)
-                    // Обновляем таблицу
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                case .failure(let error):
-                    // Обрабатываем ошибку, например, показываем пользователю сообщение
-                    print("Failed to fetch photos: \(error.localizedDescription)")
+        imagesListservice.fetchPhotosNextPage(username: userName, completion: { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let newPhotos):
+                // Добавляем новые фотографии в существующий массив
+                self.photos.append(contentsOf: newPhotos)
+                // Обновляем таблицу
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
+            case .failure(let error):
+                // Обрабатываем ошибку, например, показываем пользователю сообщение
+                print("Failed to fetch photos: \(error.localizedDescription)")
             }
-//        } else {
-//            return
-        }
+        })
     }
-
-
-
-
+    }
+                                           
+                                           
+                                           
+                                           
+                                           

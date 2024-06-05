@@ -15,7 +15,6 @@ final class ImageListViewController: UIViewController {
     private (set) var photos = [Photo]()
     private let profileService = ProfileService.shared
     private var imageListServiceObserver: NSObjectProtocol?
-    private var imageListCell = ImageListCell()
     private let placeholder = UIImage(named: "placeholder")
     
     func tableView(

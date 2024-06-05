@@ -20,7 +20,7 @@ final class ImagesListService {
     private func makePhotosRequest() -> URLRequest? {
         let nextPage = (lastLoadedPage ?? 0) + 1
         let perPage = 10
-        let orderBy = "oldest"
+        let orderBy = "latest"
         let urlString = "https://api.unsplash.com/photos?page=\(nextPage)"+"&per_page=\(perPage)"+"&order_by=\(orderBy)"
         
         guard let url = URL(string: urlString) else {
@@ -76,13 +76,15 @@ final class ImagesListService {
                 let photoResults = try decoder.decode([PhotoResult].self, from: data)
                 let photos = photoResults.map { Photo(photoResult: $0) }
                 
-                if let self = self {
-                    self.photos.append(contentsOf: photos)
-                    self.lastLoadedPage = (self.lastLoadedPage ?? 0) + 1
-                    DispatchQueue.main.async {
-                        completion(.success(self.photos))
-                    }
+                DispatchQueue.main.async {
                     
+                    if let self = self {
+                        self.photos.append(contentsOf: photos)
+                        self.lastLoadedPage = (self.lastLoadedPage ?? 0) + 1
+                        DispatchQueue.main.async {
+                            completion(.success(self.photos))
+                        }
+                    }
                 }
             } catch {
                 DispatchQueue.main.async {

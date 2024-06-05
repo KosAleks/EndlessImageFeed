@@ -26,7 +26,7 @@ final class ImageListCell: UITableViewCell {
         // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
         imageCell.kf.cancelDownloadTask()
         // Очищаем изображение, чтобы не показывать старое изображение при переиспользовании ячейки
-       // imageCell.image = nil
+        imageCell.image = nil
     }
     
     @IBAction func didTapLikeButton(_ sender: Any) {

@@ -22,7 +22,7 @@ final class ImageListViewController: UIViewController {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-    if indexPath.row + 1 == photos.count  {
+        if indexPath.row + 1 == photos.count  {
             fetchPhotos()
         } else {
             return
@@ -45,16 +45,16 @@ final class ImageListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == ShowSingleImageSegueIdentifier {
-    let viewController = segue.destination as! SingleImageViewController
-    let indexPath = sender as! IndexPath
-    let photo = imagesListservice.photos[indexPath.row]
-    let imageURL = photo.thumbImageURL
-         
-    } else {
-                super.prepare(for: segue, sender: sender)
-            }
+        if segue.identifier == ShowSingleImageSegueIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let photo = imagesListservice.photos[indexPath.row]
+            let imageURL = photo.thumbImageURL
+            
+        } else {
+            super.prepare(for: segue, sender: sender)
         }
+    }
     private lazy var dateFormated: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -83,6 +83,11 @@ extension ImageListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard indexPath.row < photos.count else {
+            // Если индекс выходит за границы, возвращаем пустую ячейку
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageListCell.reuseIdentifier, for: indexPath)
         guard let imageListCell = cell as? ImageListCell
         else {
@@ -96,31 +101,34 @@ extension ImageListViewController: UITableViewDataSource {
         }
         return imageListCell
     }
-                                           
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            
-            let photo = imagesListservice.photos[indexPath.row]
-            let photoInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-            let photoViewWidth = tableView.bounds.width - photoInsets.right - photoInsets.left
-            guard let photoWidth = photo.size?.width else { return 0.0 }
-            let scale = photoViewWidth / photoWidth
-            let cellHeidht = (photo.size?.height ?? 0.0) * scale + photoInsets.bottom
-            return cellHeidht
+        guard indexPath.row < photos.count else {
+            // Если индекс выходит за границы, возвращаем пустую ячейку
+            return 0.0
         }
+        let photo = imagesListservice.photos[indexPath.row]
+        let photoInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        let photoViewWidth = tableView.bounds.width - photoInsets.right - photoInsets.left
+        guard let photoWidth = photo.size?.width else { return 0.0 }
+        let scale = photoViewWidth / photoWidth
+        let cellHeidht = (photo.size?.height ?? 0.0) * scale + photoInsets.bottom
+        return cellHeidht
+    }
     
     private func  updateTableViewAnimated() {
-              let oldCount = photos.count
-              let newCount = imagesListservice.photos.count
-              self.photos = imagesListservice.photos
-              if oldCount != newCount {
-        tableView.performBatchUpdates {
-            let indexPaths = (oldCount..<newCount).map { i in
-                IndexPath(row: i, section: 0)
-            }
-            tableView.insertRows(at: indexPaths, with: .automatic)
-        } completion: { _ in }
+        let oldCount = photos.count
+        let newCount = imagesListservice.photos.count
+        self.photos = imagesListservice.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { i in
+                    IndexPath(row: i, section: 0)
+                }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
+        }
     }
-            }
     private func fetchPhotos() {
         guard let userName = profileService.profile?.username else {
             print("No user name to create a request for fetch profileImage")
@@ -142,9 +150,9 @@ extension ImageListViewController: UITableViewDataSource {
             }
         })
     }
-    }
-                                           
-                                           
-                                           
-                                           
-                                           
+}
+
+
+
+
+

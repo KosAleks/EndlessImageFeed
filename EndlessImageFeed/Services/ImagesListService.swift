@@ -63,7 +63,18 @@ final class ImagesListService {
                 }
                 return
             }
-            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                            DispatchQueue.main.async {
+                                completion(.failure(NetworkError.invalidResponse))
+                            }
+                            return
+                        }
+                        guard (200...299).contains(httpResponse.statusCode) else {
+                            DispatchQueue.main.async {
+                                completion(.failure(NetworkError.httpStatusCode(httpResponse.statusCode)))
+                            }
+                            return
+                        }
             guard let data = data else {
                 DispatchQueue.main.async {
                     completion(.failure(NetworkError.invalidRequest))
@@ -84,6 +95,9 @@ final class ImagesListService {
                         DispatchQueue.main.async {
                             completion(.success(self.photos))
                         }
+                        NotificationCenter.default.post(
+                            name: ImagesListService.didChangeNotification,
+                            object: self)
                     }
                 }
             } catch {

@@ -15,5 +15,6 @@ enum NetworkError: Error {
     case decodingError
     case dataError
     case taskError
+    case invalidResponse
 }
 

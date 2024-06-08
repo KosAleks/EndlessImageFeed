@@ -15,10 +15,11 @@ final class ImageListCell: UITableViewCell {
     @IBOutlet var dataLabel: UILabel!
     @IBOutlet var imageCell: UIImageView!
     private let imagesListService = ImagesListService()
-    private let imageListViewController = ImageListViewController()
-    private (set) var photos: [Photo] = []
-    weak var tableView: UITableView! 
+    private let imagesListViewController = ImageListViewController()
+    let photo = Photo()
+    weak var tableView: UITableView!
     var indexPath = IndexPath()
+    weak var delegate: ImagesListCellDelegate?
     
     
     override func prepareForReuse() {
@@ -29,10 +30,13 @@ final class ImageListCell: UITableViewCell {
         imageCell.image = nil
     }
     
-    @IBAction func didTapLikeButton(_ sender: Any) {
-        let likedImage = UIImage(named: "Icon 42x42 ActiveLike")
-        likeButtonActive.setImage(likedImage, for: .normal)
-    }
+  
     
-}
+    @IBAction func didTapLikeButton(_ sender: Any) {
+        delegate?.imagesListCellDidTapLike(self)
+    }
+    }
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imagesListCellDidTapLike(_ cell: ImageListCell)
+}

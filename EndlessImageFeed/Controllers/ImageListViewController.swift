@@ -7,16 +7,17 @@
 
 import UIKit
 import Kingfisher
+import ProgressHUD
 
 final class ImageListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    private let imagesListservice = ImagesListService()
+    private let imagesListService = ImagesListService()
     private (set) var photos = [Photo]()
     private let profileService = ProfileService.shared
     private var imageListServiceObserver: NSObjectProtocol?
-    private let placeholder = UIImage(named: "placeholder")
-    
+    private let isLikedImage = UIImage(named: "Icon 42x42 ActiveLike")
+
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
@@ -48,11 +49,11 @@ final class ImageListViewController: UIViewController {
         if segue.identifier == ShowSingleImageSegueIdentifier {
             let viewController = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
-            let photo = imagesListservice.photos[indexPath.row]
+            let photo = photos[indexPath.row]
             let imageURL = photo.thumbImageURL
-            
         } else {
             super.prepare(for: segue, sender: sender)
+
         }
     }
     private lazy var dateFormated: DateFormatter = {
@@ -63,13 +64,13 @@ final class ImageListViewController: UIViewController {
         return formatter
     }()
 }
-extension ImageListViewController {
-    func configCell(for cell: ImageListCell, with indexPath: IndexPath) {
-        cell.dataLabel.text = dateFormated.string(from: Date())
-        let likedImage = UIImage(named: "Icon 42x42 NoActiveLike1")
-        cell.likeButtonActive.setImage(likedImage, for: .normal)
-    }
-}
+//extension ImageListViewController {
+//    func configCell(for cell: ImageListCell, with indexPath: IndexPath) {
+//        let placeholder = UIImage(named: "placeholder")
+//        cell.imageCell = UIImageView(image: placeholder)
+//        cell.dataLabel.text = dateFormated.string(from: Date())
+//    }
+//}
 
 
 extension ImageListViewController: UITableViewDelegate {
@@ -87,13 +88,14 @@ extension ImageListViewController: UITableViewDataSource {
             // Если индекс выходит за границы, возвращаем пустую ячейку
             return UITableViewCell()
         }
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageListCell.reuseIdentifier, for: indexPath)
         guard let imageListCell = cell as? ImageListCell
         else {
             return UITableViewCell()
         }
-        let photo = imagesListservice.photos[indexPath.row]
+       
+        imageListCell.delegate = self
+        let photo = photos[indexPath.row]
         if let url = URL(string: photo.thumbImageURL ?? "") {
             imageListCell.imageCell.kf.setImage(with: url, completionHandler: { [weak self] _ in
                 guard let self = self else {return}
@@ -104,10 +106,9 @@ extension ImageListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard indexPath.row < photos.count else {
-            // Если индекс выходит за границы, возвращаем пустую ячейку
             return 0.0
         }
-        let photo = imagesListservice.photos[indexPath.row]
+        let photo = photos[indexPath.row]
         let photoInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let photoViewWidth = tableView.bounds.width - photoInsets.right - photoInsets.left
         guard let photoWidth = photo.size?.width else { return 0.0 }
@@ -118,8 +119,8 @@ extension ImageListViewController: UITableViewDataSource {
     
     private func  updateTableViewAnimated() {
         let oldCount = photos.count
-        let newCount = imagesListservice.photos.count
-        self.photos = imagesListservice.photos
+        let newCount = imagesListService.photos.count
+        photos = imagesListService.photos
         if oldCount != newCount {
             tableView.performBatchUpdates {
                 let indexPaths = (oldCount..<newCount).map { i in
@@ -134,7 +135,7 @@ extension ImageListViewController: UITableViewDataSource {
             print("No user name to create a request for fetch profileImage")
             return
         }
-        imagesListservice.fetchPhotosNextPage(username: userName, completion: { [weak self] result in
+        imagesListService.fetchPhotosNextPage(username: userName, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let newPhotos):
@@ -149,6 +150,36 @@ extension ImageListViewController: UITableViewDataSource {
                 print("Failed to fetch photos: \(error.localizedDescription)")
             }
         })
+    }
+}
+
+extension ImageListViewController: ImagesListCellDelegate {
+    
+    func imagesListCellDidTapLike(_ cell: ImageListCell) {
+    cell.likeButtonActive.setImage(self.isLikedImage, for: .normal)
+      guard let indexPath = tableView.indexPath(for: cell) else { return }
+      let photo = photos[indexPath.row]
+      // Покажем лоадер
+     UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: !(photo.isLiked ?? false)!) { result in
+        switch result {
+        case .success:
+           // Синхронизируем массив картинок с сервисом
+           self.photos = self.imagesListService.photos
+           // Изменим индикацию лайка картинки
+              (self.photos[indexPath.row].isLiked)
+           // Уберём лоадер
+           UIBlockingProgressHUD.dismiss()
+        case .failure:
+           // Уберём лоадер
+           UIBlockingProgressHUD.dismiss()
+            let alert = UIAlertController(
+                title: "Something is goinng wrong",
+                message: "we are already fixing the problem, please wait",
+                preferredStyle: .alert)
+            alert.show(ImageListViewController(), sender: nil)
+           }
+        }
     }
 }
 

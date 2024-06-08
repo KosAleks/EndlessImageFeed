@@ -47,7 +47,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Du3-LN-GNM" userLabel="LikeButtonActive">
                                                     <rect key="frame" x="319" y="0.0" width="42" height="42"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" title="" image="Icon 42x42 ActiveLike"/>
+                                                    <state key="normal" image="Icon 42x42 NoActiveLike1"/>
                                                     <connections>
                                                         <action selector="didTapLikeButton:" destination="o9V-rn-xLl" eventType="touchUpInside" id="otl-6w-scB"/>
                                                     </connections>
@@ -256,7 +256,7 @@
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Backward 24x24" width="24" height="24"/>
-        <image name="Icon 42x42 ActiveLike" width="42" height="42"/>
+        <image name="Icon 42x42 NoActiveLike1" width="42" height="42"/>
         <image name="Sharing1 50x50" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="AccentColor">

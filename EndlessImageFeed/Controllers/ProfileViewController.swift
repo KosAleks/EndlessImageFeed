@@ -7,6 +7,8 @@
 
 import UIKit
 import Kingfisher
+import ObjectiveC
+
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private var profileStorage = ProfileStorage()
@@ -18,11 +20,6 @@ final class ProfileViewController: UIViewController {
     private let profileLogoutService = ProfileLogoutService.shared
     
     var profileAvatar = UIImageView()
-    
-    @objc func buttonTapped() {
-        print("Button was tapped!")
-        showAlertExit()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +71,9 @@ final class ProfileViewController: UIViewController {
         let exitButton =  UIButton(type: .system)
         exitButton.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
         exitButton.tintColor = UIColor(named: "YP Red")
+        exitButton.addTarget(self,
+                             action: #selector(buttonTapped),
+                             for: .touchUpInside)
         
         view.addSubview(exitButton)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
@@ -82,16 +82,12 @@ final class ProfileViewController: UIViewController {
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: profileAvatar.centerYAnchor).isActive = true
         
-        exitButton.addTarget(profileLogoutService.logout(),
-                             action: #selector (buttonTapped) ,
-                             for: .touchUpOutside)
         
         func updateProfileDetails(profile: Profile) {
             
             userNameLabel.text = profile.name
             userMailLabel.text = profile.loginName
             greetingLabel.text = profile.bio
-            print("\(userNameLabel.text), \(userMailLabel.text) , \(greetingLabel.text)")
             return
         }
     }
@@ -106,14 +102,16 @@ final class ProfileViewController: UIViewController {
     }
     
     private func showAlertExit() {
+        let name = profileStorage.firstName + " " + profileStorage.lastName
         let alert = UIAlertController(
-            title: "Exit from account \(userNameLabel)",
+            title: "Exit from account \(name)",
             message: "Do you want to exit?",
             preferredStyle: .alert)
         
         let yesButton = UIAlertAction(title: "Yes",
                                       style: .default) { _ in
-            // переход на сплэшВьюКщнтроллер
+            self.profileLogoutService.logout()
+            self.switchAuthViewController()
         }
         
         let noButton = UIAlertAction(title: "No",
@@ -124,9 +122,19 @@ final class ProfileViewController: UIViewController {
         alert.addAction(noButton)
         present(alert, animated: true)
     }
+    
+    func switchAuthViewController() {
+        let authViewController = AuthViewController()
+        authViewController.modalPresentationStyle = .fullScreen
+        let navVC = UINavigationController(rootViewController: authViewController)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
+    }
 }
-// TODO: реализовать !!! при нажатии на кнопку выхода ажатию на кнопку выхода нужно показать предупреждение и запросить подтверждение выхода; если пользователь подтверждает выход из аккаунта, то:
-//удаляется значение authToken из OAuth2TokenStorage;
-//очищаются куки (cookie) веб-браузера (нужно вызывать HTTPCookieStorage.shared.removeCookies(since: .distantPast)) — в противном случае при открытии браузера не будут показаны поля для ввода логина и пароля;
-//rootViewController заменяется на SplashViewController (выполняется по аналогии со switchToTabBarController, только нужно перейти не на TabBarController, а на SplashViewController).
-//
+extension ProfileViewController {
+    @objc func buttonTapped() {
+        showAlertExit();
+        print("Button was tapped!")
+    }
+}
+

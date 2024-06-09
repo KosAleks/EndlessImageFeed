@@ -89,6 +89,7 @@ extension ImageListViewController: UITableViewDataSource {
             imageListCell.imageCell.kf.setImage(with: url, placeholder: placeholder, completionHandler: { [weak self] _ in
                 guard self != nil else {return}
             })
+            imageListCell.dataLabel.text = photo.createdAt
         }
         return imageListCell
     }

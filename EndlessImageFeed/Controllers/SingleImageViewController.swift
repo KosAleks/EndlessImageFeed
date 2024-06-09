@@ -17,7 +17,7 @@ final class SingleImageViewController: UIViewController {
     
     private func setImage() {
         UIBlockingProgressHUD.show()
-        var url = URL(string: fullPhoto ?? "")
+        let url = URL(string: fullPhoto ?? "")
         imageView.kf.setImage(with: url) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self = self else {return}

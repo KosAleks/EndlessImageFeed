@@ -171,7 +171,7 @@ final class ImagesListService {
                                                      welcomeDescription: photo.welcomeDescription,
                                                      thumbImageURL: photo.thumbImageURL,
                                                      largeImageURL: photo.largeImageURL,
-                                                     isLiked: !(photo.isLiked ?? true))
+                                                     isLiked: !photo.isLiked!)
                                 self.photos[index] = newPhoto
                                 completion(.success(newPhoto))
                                 print("\(newPhoto)")

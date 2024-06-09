@@ -20,7 +20,8 @@ final class ImageListCell: UITableViewCell {
     weak var tableView: UITableView!
     var indexPath = IndexPath()
     weak var delegate: ImagesListCellDelegate?
-    
+    private let isLikedImage = UIImage(named: "Icon 42x42 ActiveLike")
+    private let isNotLikedImage = UIImage(named: "Icon 42x42 NoActiveLike1")
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -30,12 +31,15 @@ final class ImageListCell: UITableViewCell {
         imageCell.image = nil
     }
     
-  
+    func setIsLiked(isLike: Bool?) {
+        let imageLike = isLike ?? true ? "Icon 42x42 ActiveLike" : "Icon 42x42 NoActiveLike1"
+        likeButtonActive.setImage(UIImage(named: imageLike), for: .normal)
+    }
     
     @IBAction func didTapLikeButton(_ sender: Any) {
         delegate?.imagesListCellDidTapLike(self)
     }
-    }
+}
 
 protocol ImagesListCellDelegate: AnyObject {
     func imagesListCellDidTapLike(_ cell: ImageListCell)

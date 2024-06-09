@@ -62,11 +62,11 @@ extension Photo {
         let createdAtDate = dateFormatted.date(from: photoResult.createdAt ?? "")
         
         let size: CGSize? = {
-                   guard let width = photoResult.width, let height = photoResult.height, width > 0, height > 0 else {
-                       return nil
-                   }
-                   return CGSize(width: Double(width), height: Double(height))
-               }()
+            guard let width = photoResult.width, let height = photoResult.height, width > 0, height > 0 else {
+                return nil
+            }
+            return CGSize(width: Double(width), height: Double(height))
+        }()
         
         self.init(
             id: photoResult.id ?? "There is no id in fetch photo",
@@ -78,6 +78,4 @@ extension Photo {
             isLiked: photoResult.likedByUser ?? false
         )
     }
-    
-  
 }

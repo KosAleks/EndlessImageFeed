@@ -25,9 +25,7 @@ final class ImageListCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
         imageCell.kf.cancelDownloadTask()
-        // Очищаем изображение, чтобы не показывать старое изображение при переиспользовании ячейки
         imageCell.image = nil
     }
     

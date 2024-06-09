@@ -17,6 +17,7 @@ final class ImageListViewController: UIViewController {
     private let profileService = ProfileService.shared
     private var imageListServiceObserver: NSObjectProtocol?
     private let isLikedImage = UIImage(named: "Icon 42x42 ActiveLike")
+    private let placeholder = UIImage(named: "placeholder")
 
     func tableView(
         _ tableView: UITableView,
@@ -60,13 +61,6 @@ final class ImageListViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-    private lazy var dateFormated: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "ru_RU")
-        return formatter
-    }()
 }
 
 extension ImageListViewController: UITableViewDelegate {
@@ -88,13 +82,12 @@ extension ImageListViewController: UITableViewDataSource {
         else {
             return UITableViewCell()
         }
-        cell.imageView?.image = UIImage(named: "placeholder")
-        
+    
         imageListCell.delegate = self
         let photo = photos[indexPath.row]
         if let url = URL(string: photo.thumbImageURL ?? "") {
-            imageListCell.imageCell.kf.setImage(with: url, completionHandler: { [weak self] _ in
-                guard let self = self else {return}
+            imageListCell.imageCell.kf.setImage(with: url, placeholder: placeholder, completionHandler: { [weak self] _ in
+                guard self != nil else {return}
             })
         }
         return imageListCell

@@ -67,6 +67,9 @@ final class ProfileService {
             }
         }
     }
+    func cleanProfile() {
+        self.profile = nil
+    }
 }
 
 

@@ -5,8 +5,6 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     private (set) var photos = [Photo]()
     private let imagesListService = ImagesListService()
-    private let photo = Photo()
-    private let placeholder = UIImage(named: "placeholder")
     
     @IBOutlet var backButton: UIButton!
     
@@ -14,23 +12,22 @@ final class SingleImageViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
+    var image = UIImage()
+    var fullPhoto: String?
     
-    var image: UIImage? {
+    private func setImage() {
         UIBlockingProgressHUD.show()
-        if let url = URL(string: photo.largeImageURL ?? "") {
-            imageView.kf.setImage(with: url) { [weak self] result in
-                UIBlockingProgressHUD.dismiss()
-                guard let self = self else {return}
-                switch result {
-                case .success(let imageResult):
-                    self.rescaleAndCenterImageInScrollView(image: imageResult.image)
-                case .failure:
-                    self.showError()
-                }
+        var url = URL(string: fullPhoto ?? "")
+        imageView.kf.setImage(with: url) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else {return}
+            switch result {
+            case .success(let imageResult):
+                rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                showError()
             }
         }
-        UIBlockingProgressHUD.dismiss()
-        return image
     }
     
     private func showError() {
@@ -42,26 +39,17 @@ final class SingleImageViewController: UIViewController {
             print("allert OK button tapped")
             alert.dismiss(animated: true)
             self.dismiss(animated: true)
-            if let url = URL(string: self.photo.largeImageURL ?? "") {
-                self.imageView.kf.setImage(with: url) { [weak self] result in guard let self = self else {return}
-                    switch result {
-                    case .success(let imageResult):
-                        self.rescaleAndCenterImageInScrollView(image: imageResult.image)
-                    case .failure:
-                        self.showError()
-                    }
-                }
-            }
         })
-            
-        let cancelActionButton = UIAlertAction(title: "No, thanks.", style: .default, handler: { _ in
+        
+        let cancelActionButton = UIAlertAction(title: "No, thanks.", style: .default, handler: { [weak self] _ in
+            self?.setImage()
             print("alert NO button tapped")
             alert.dismiss(animated: true)
-            self.dismiss(animated: true)
+            self?.dismiss(animated: true)
         })
         alert.addAction(okActionButton)
         alert.addAction(cancelActionButton)
-            self.present(alert, animated: true)
+        self.present(alert, animated: true)
     }
     
     
@@ -69,12 +57,10 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        imageView.image = image
-        guard let image else {return}
-        rescaleAndCenterImageInScrollView(image: image)
+        setImage()
         view.backgroundColor = UIColor(named: "YP Black")
     }
-  
+    
     
     @IBAction func didTapBackButton() {
         dismiss(animated: true, completion: nil)

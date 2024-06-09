@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2302179D2C14F1150008CFD7 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2302179C2C14F1150008CFD7 /* ProfileLogoutService.swift */; };
 		23059D5B2B864A2C00C9334F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23059D5A2B864A2C00C9334F /* Constants.swift */; };
 		23059D5D2B86713100C9334F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23059D5C2B86713100C9334F /* AuthViewController.swift */; };
 		230858852B58055400E39914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230858842B58055400E39914 /* AppDelegate.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2302179C2C14F1150008CFD7 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		23059D5A2B864A2C00C9334F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		23059D5C2B86713100C9334F /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		230858812B58055400E39914 /* EndlessImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EndlessImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +155,7 @@
 				2379823A2BA74B8D00F9C1A4 /* ProfileService.swift */,
 				236920EE2BD51F960046918F /* ProfileImageService.swift */,
 				2366817F2C00FFAC000668C9 /* ImagesListService.swift */,
+				2302179C2C14F1150008CFD7 /* ProfileLogoutService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			files = (
 				23A8703B2B61790600CB612D /* ImageListCell.swift in Sources */,
 				23D9F2BD2BA8549B003CEB9B /* ProfileStorage.swift in Sources */,
+				2302179D2C14F1150008CFD7 /* ProfileLogoutService.swift in Sources */,
 				23C8FA8B2B88F61400F46B59 /* WebViewViewControllerDelegate.swift in Sources */,
 				230858892B58055400E39914 /* ImageListViewController.swift in Sources */,
 				23B4F6B02B95F996007D10C3 /* AuthViewControllerDelegate.swift in Sources */,

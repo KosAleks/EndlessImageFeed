@@ -104,11 +104,8 @@ final class ImagesListService {
         task?.resume()
     }
     
-    private func makeLikeRequest(photoId: String, isLike: Bool) -> URLRequest? {
-        if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
-            let id = self.photos[index].id
-            print("Found photo with ID: \(id ?? "unknown")")
-            let urlString = "https://api.unsplash.com/photos/\(id)/like"
+        func makeLikeRequest(photoId: String, isLike: Bool) -> URLRequest? {
+            let urlString = "https://api.unsplash.com/photos/\(photoId)/like"
             guard let url = URL(string: urlString) else {
                 print("Failed to create URL with baseURL and parameters.")
                 return nil
@@ -118,20 +115,14 @@ final class ImagesListService {
             let token = OAuth2TokenStorage.shared.token
             if let token = token {
                 request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-                if photos[index] .isLiked == true {
-                    request.httpMethod = "POST"
-                } else {
-                    request.httpMethod = "DELETE"
-                }
-                return request
-            } else {
-                print("no token to make request")
-            }
+                request.httpMethod = isLike ? "DELETE" : "POST"
             return request
         } else {
-            return nil
+            print("no token to make request")
         }
+            return nil
     }
+    
         func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Photo, Error>) -> Void) {
             assert(Thread.isMainThread)
             if self.task != nil {
@@ -169,14 +160,23 @@ final class ImagesListService {
                     let decoder = JSONDecoder()
                     let photoResult = try decoder.decode(PhotoResult.self, from: data)
                     let updatedPhoto = Photo(photoResult: photoResult)
-
+                    
                     DispatchQueue.main.async {
                         if let self = self {
                             if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
-                                self.photos[index] = updatedPhoto
-                                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
+                                let photo = self.photos[index]
+                                let newPhoto = Photo(id: photo.id,
+                                                     size: photo.size,
+                                                     createdAt: photo.createdAt,
+                                                     welcomeDescription: photo.welcomeDescription,
+                                                     thumbImageURL: photo.thumbImageURL,
+                                                     largeImageURL: photo.largeImageURL,
+                                                     isLiked: !(photo.isLiked ?? true))
+                                self.photos[index] = newPhoto
+                                completion(.success(newPhoto))
+                                print("\(newPhoto)")
                             }
-                            completion(.success(updatedPhoto))
+                            NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                         }
                     }
                 } catch {
@@ -187,5 +187,8 @@ final class ImagesListService {
             }
             task?.resume()
         }
+    func cleanImagesList() {
+        self.photos = []
+    }
     }
 

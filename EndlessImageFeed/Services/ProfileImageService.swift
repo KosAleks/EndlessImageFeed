@@ -76,4 +76,12 @@ final class ProfileImageService {
         }
         
     }
+    func cleanProfileImage() {
+        self.profileImageURL = nil
+        self.profileImage = ProfileImage (
+            small: "",
+            medium: "",
+            large: ""
+        )
+    }
 }

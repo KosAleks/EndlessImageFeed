@@ -27,4 +27,7 @@ final class OAuth2TokenStorage {
             }
         }
     }
+    func cleanOAuthToken() {
+        self.token = nil
+    }
 }

@@ -47,13 +47,17 @@ final class ImageListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
-            let indexPath = sender as! IndexPath
-            let photo = photos[indexPath.row]
-            let imageURL = photo.thumbImageURL
+            guard
+            let viewController = segue.destination as? SingleImageViewController,
+            let indexPath = sender as? IndexPath
+            else {
+                assertionFailure("invalid segue destination")
+                return
+            }
+            let image = photos[indexPath.row].largeImageURL
+            viewController.fullPhoto = image
         } else {
             super.prepare(for: segue, sender: sender)
-
         }
     }
     private lazy var dateFormated: DateFormatter = {

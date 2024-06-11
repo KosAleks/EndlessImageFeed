@@ -16,8 +16,8 @@ final class ProfileLogoutService {
    private init() { }
     private let profileService = ProfileService.shared
     private let imagesListService = ImagesListService()
-    private let profileImageService = ProfileImageService()
-    private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let profileImageService = ProfileImageService.shared
+    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
    func logout() {
       cleanCookies()
       cleanOAuth2TokenStorage()

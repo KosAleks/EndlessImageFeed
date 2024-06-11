@@ -13,7 +13,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     //MARK: Public Properties
     weak var delegate: AuthViewControllerDelegate?
     //MARK: Private Properties
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
     private let authLogo = UIImageView()
     private let enterButton = UIButton()

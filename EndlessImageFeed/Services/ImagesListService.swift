@@ -81,7 +81,7 @@ final class ImagesListService {
                 DispatchQueue.main.async {
                     if let self = self {
                         self.photos.append(contentsOf: photos)
-                        self.lastLoadedPage = (self.lastLoadedPage ?? 0) + 1
+                        self.lastLoadedPage = self.lastLoadedPage + 1
                         NotificationCenter.default.post(
                             name: ImagesListService.didChangeNotification,
                             object: self)
@@ -162,7 +162,7 @@ final class ImagesListService {
                                                  welcomeDescription: photo.welcomeDescription,
                                                  thumbImageURL: photo.thumbImageURL,
                                                  largeImageURL: photo.largeImageURL,
-                                                 isLiked: photo.isLiked)
+                                                 isLiked: !photo.isLiked)
                             self.photos[index] = newPhoto
                             completion(.success(newPhoto))
                             print("\(newPhoto)")

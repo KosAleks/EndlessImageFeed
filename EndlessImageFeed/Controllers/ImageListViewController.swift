@@ -115,14 +115,16 @@ extension ImageListViewController: UITableViewDataSource {
     private func  updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
-        self.photos = self.imagesListService.photos
+        
         if oldCount != newCount {
-            tableView.performBatchUpdates {
+            tableView.performBatchUpdates ({
                 let indexPaths = (oldCount..<newCount).map { i in
                     IndexPath(row: i, section: 0)
                 }
                 tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in}
+                self.photos = self.imagesListService.photos
+            }, completion: { _ in
+            })
         }
     }
     
@@ -158,7 +160,7 @@ extension ImageListViewController: ImagesListCellDelegate {
         imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked) { result in
             switch result {
             case .success:
-                self.photos = self.imagesListService.photos
+            //    self.photos = self.imagesListService.photos
                 cell.setIsLiked(isLike: self.photos[indexPath.row].isLiked)
                 UIBlockingProgressHUD.dismiss()
             case .failure:

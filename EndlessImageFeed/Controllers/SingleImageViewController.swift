@@ -5,11 +5,8 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     private (set) var photos = [Photo]()
     private let imagesListService = ImagesListService()
-    
     @IBOutlet var backButton: UIButton!
-    
     @IBOutlet var sharingButton: UIButton!
-    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     var image = UIImage()
@@ -52,7 +49,6 @@ final class SingleImageViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
@@ -60,7 +56,6 @@ final class SingleImageViewController: UIViewController {
         setImage()
         view.backgroundColor = UIColor(named: "YP Black")
     }
-    
     
     @IBAction func didTapBackButton() {
         dismiss(animated: true, completion: nil)

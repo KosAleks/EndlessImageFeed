@@ -11,28 +11,23 @@ final class ProfileImageService {
     private var task: URLSessionTask?
     private var token = OAuth2TokenStorage.shared.token
     static let shared = ProfileImageService()
-    init() {}
+    private init() {}
     private (set) var profileImageURL: String?
     private var profileImage = ProfileImage()
     private var profileService = ProfileService.shared
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
-    
-    
     
     private func makeProfileImageRequest() -> URLRequest? {
         guard let userName = profileService.profile?.username else {
             print("No user name to create a request for fetch profileImage")
             return nil
         }
-        
         let urlString = "https://api.unsplash.com/users/\(userName)"
-        
         guard let url = URL(string: urlString) else {
             print("Failed to create URL with baseURL and parameters.")
             return nil
         }
         var request = URLRequest(url: url)
-        
         let token = OAuth2TokenStorage.shared.token
         if token != nil {
             request.setValue("Bearer \(token ?? "her vam a ne token")", forHTTPHeaderField: "Authorization")
@@ -50,14 +45,13 @@ final class ProfileImageService {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
-        
         task = urlSession.objectTask(for: request1) { [weak self] (result: Result<UserResult, Error>) in
             switch result {
             case .success(let response):
-              
+                
                 guard let profileImageURL = response.profileImage.small else {return}
                 self?.profileImageURL = profileImageURL
-               
+                
                 DispatchQueue.main.async {
                     completion(.success(profileImageURL))
                     NotificationCenter.default.post (
@@ -74,8 +68,8 @@ final class ProfileImageService {
                 }
             }
         }
-        
     }
+    
     func cleanProfileImage() {
         self.profileImageURL = nil
         self.profileImage = ProfileImage (

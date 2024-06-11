@@ -44,7 +44,6 @@ struct UrlsResult: Codable {
     }
 }
 
-
 struct Photo: Codable {
     var id: String?
     var size: CGSize?
@@ -52,22 +51,11 @@ struct Photo: Codable {
     var welcomeDescription: String?
     var thumbImageURL: String?
     var largeImageURL: String?
-    var isLiked: Bool?
+    var isLiked: Bool
 }
 
 extension Photo {
     init (photoResult: PhotoResult) {
-        let dateFormatted = DateFormatter()
-        dateFormatted.dateFormat = "dd-MMMM-yyyy"
-       
-        let createdAtDate = dateFormatted.date(from: photoResult.createdAt ?? "")
-        
-        let createdAtString = dateFormatted.string(from: createdAtDate ?? Date())
-        
-//        let isoFormatter = ISO8601DateFormatter()
-//
-//        isoFormatter.formatOptions = [.withFullDate]
-//        let createdAtString = isoFormatter.string(from: createdAtDate ?? Date())
         
         let size: CGSize? = {
             guard let width = photoResult.width, let height = photoResult.height, width > 0, height > 0 else {
@@ -79,7 +67,7 @@ extension Photo {
         self.init(
             id: photoResult.id ?? "There is no id in fetch photo",
             size: size,
-            createdAt: createdAtString,
+            createdAt: photoResult.createdAt,
             welcomeDescription: photoResult.description,
             thumbImageURL: photoResult.urls?.thumb ?? "There is no thumb image URL",
             largeImageURL: photoResult.urls?.full ?? "There is no large image URL (full)",

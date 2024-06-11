@@ -18,7 +18,13 @@ final class ImageListViewController: UIViewController {
     private var imageListServiceObserver: NSObjectProtocol?
     private let isLikedImage = UIImage(named: "Icon 42x42 ActiveLike")
     private let placeholder = UIImage(named: "placeholder")
-
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatted = DateFormatter()
+        dateFormatted.dateFormat = "d-MMMM-yyyy"
+        return dateFormatted
+    }()
+    
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
@@ -49,8 +55,8 @@ final class ImageListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowSingleImageSegueIdentifier {
             guard
-            let viewController = segue.destination as? SingleImageViewController,
-            let indexPath = sender as? IndexPath
+                let viewController = segue.destination as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
             else {
                 assertionFailure("invalid segue destination")
                 return
@@ -82,14 +88,13 @@ extension ImageListViewController: UITableViewDataSource {
         else {
             return UITableViewCell()
         }
-    
         imageListCell.delegate = self
         let photo = photos[indexPath.row]
         if let url = URL(string: photo.thumbImageURL ?? "") {
-            imageListCell.imageCell.kf.setImage(with: url, placeholder: placeholder, completionHandler: { [weak self] _ in
+            imageListCell.imageCell.kf.setImage(with: url, placeholder: placeholder) { [weak self] _ in
                 guard self != nil else {return}
-            })
-            imageListCell.dataLabel.text = photo.createdAt
+            }
+            imageListCell.dataLabel.text = formatImageDate(from: photo.createdAt ?? "")
         }
         return imageListCell
     }
@@ -120,6 +125,7 @@ extension ImageListViewController: UITableViewDataSource {
             } completion: { _ in }
         }
     }
+    
     private func fetchPhotos() {
         guard let userName = profileService.profile?.username else {
             print("No user name to create a request for fetch profileImage")
@@ -144,28 +150,35 @@ extension ImageListViewController: UITableViewDataSource {
 }
 
 extension ImageListViewController: ImagesListCellDelegate {
-    
     func imagesListCellDidTapLike(_ cell: ImageListCell) {
-      guard let indexPath = tableView.indexPath(for: cell) else { return }
-      let photo = photos[indexPath.row]
-     UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: !(photo.isLiked ?? false)!) { result in
-        switch result {
-        case .success:
-           self.photos = self.imagesListService.photos
-            cell.setIsLiked(isLike: self.photos[indexPath.row].isLiked ?? true)
-           UIBlockingProgressHUD.dismiss()
-        case .failure:
-           UIBlockingProgressHUD.dismiss()
-            let alert = UIAlertController(
-                title: "Something is goinng wrong",
-                message: "we are already fixing the problem, please wait",
-                preferredStyle: .alert)
-            alert.show(ImageListViewController(), sender: nil)
-           }
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        self.photos = self.imagesListService.photos
+        let photo = self.photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked) { result in
+            switch result {
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(isLike: self.photos[indexPath.row].isLiked)
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+                let alert = UIAlertController(
+                    title: "Something is goinng wrong",
+                    message: "we are already fixing the problem, please wait",
+                    preferredStyle: .alert)
+                alert.show(ImageListViewController(), sender: nil)
+            }
         }
     }
     
+    private func formatImageDate(from dateString: String) -> String? {
+        let dateFormatter8601 = ISO8601DateFormatter()
+        guard let date = dateFormatter8601.date(from: dateString) else {
+            return nil
+        }
+        return dateFormatter.string(from: date)
+    }
 }
 
 

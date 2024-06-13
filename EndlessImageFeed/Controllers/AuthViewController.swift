@@ -96,7 +96,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         present(alert, animated: true, completion: nil)
     }
     
-   //MARK: View Life Cycles
+    //MARK: View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor  = UIColor(named: "YP Black")

@@ -18,10 +18,11 @@ final class ImageListViewController: UIViewController {
     private var imageListServiceObserver: NSObjectProtocol?
     private let isLikedImage = UIImage(named: "Icon 42x42 ActiveLike")
     private let placeholder = UIImage(named: "placeholder")
+    private var iSO8601DateFormatter = ISO8601DateFormatter()
     
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatted = DateFormatter()
-        dateFormatted.dateFormat = "d-MMMM-yyyy"
+        dateFormatted.dateFormat = "d MMMM yyyy"
         return dateFormatted
     }()
     
@@ -45,11 +46,10 @@ final class ImageListViewController: UIViewController {
             forName: ImagesListService.didChangeNotification ,
             object: nil,
             queue: .main)
-        {[weak self] _ in
+        { [weak self] _ in
             guard let self = self else {return}
             self.updateTableViewAnimated()
         }
-        updateTableViewAnimated()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -94,7 +94,7 @@ extension ImageListViewController: UITableViewDataSource {
             imageListCell.imageCell.kf.setImage(with: url, placeholder: placeholder) { [weak self] _ in
                 guard self != nil else {return}
             }
-            imageListCell.dataLabel.text = formatImageDate(from: photo.createdAt ?? "")
+            imageListCell.dataLabel.text = dateFormatter.string(from: iSO8601DateFormatter.date(from: photo.createdAt ?? "") ?? Date())
         }
         return imageListCell
     }
@@ -112,19 +112,17 @@ extension ImageListViewController: UITableViewDataSource {
         return cellHeidht
     }
     
-    private func  updateTableViewAnimated() {
+    private func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
-        
+        photos = imagesListService.photos
         if oldCount != newCount {
-            tableView.performBatchUpdates ({
-                let indexPaths = (oldCount..<newCount).map { i in
+            self.tableView.performBatchUpdates {
+                let indexPath = (oldCount..<newCount).map { i in
                     IndexPath(row: i, section: 0)
                 }
-                tableView.insertRows(at: indexPaths, with: .automatic)
-                self.photos = self.imagesListService.photos
-            }, completion: { _ in
-            })
+                tableView.insertRows(at: indexPath, with: .automatic)
+            } completion: { _ in }
         }
     }
     
@@ -154,14 +152,13 @@ extension ImageListViewController: UITableViewDataSource {
 extension ImageListViewController: ImagesListCellDelegate {
     func imagesListCellDidTapLike(_ cell: ImageListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        self.photos = self.imagesListService.photos
-        let photo = self.photos[indexPath.row]
+        let photo = photos[indexPath.row]
         UIBlockingProgressHUD.show()
         imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked) { result in
             switch result {
-            case .success:
-            //    self.photos = self.imagesListService.photos
-                cell.setIsLiked(isLike: self.photos[indexPath.row].isLiked)
+            case .success(let photoIsLiked):
+                            self.photos[indexPath.row] = photoIsLiked
+                            cell.setIsLiked(isLike: photoIsLiked.isLiked)
                 UIBlockingProgressHUD.dismiss()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
@@ -172,14 +169,6 @@ extension ImageListViewController: ImagesListCellDelegate {
                 alert.show(ImageListViewController(), sender: nil)
             }
         }
-    }
-    
-    private func formatImageDate(from dateString: String) -> String? {
-        let dateFormatter8601 = ISO8601DateFormatter()
-        guard let date = dateFormatter8601.date(from: dateString) else {
-            return nil
-        }
-        return dateFormatter.string(from: date)
     }
 }
 

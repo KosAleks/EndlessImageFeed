@@ -18,28 +18,17 @@ final class ProfileViewController: UIViewController {
     private let greetingLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
     private let profileLogoutService = ProfileLogoutService.shared
-    
     var profileAvatar = UIImageView()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor  = UIColor(named: "YP Black")
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main)
-        { [weak self] _ in
-            guard let self = self else {return}
-            self.updateAvatar()
-        }
-        updateAvatar()
-        
+    private func addProfileAvatar() {
         view.addSubview(profileAvatar)
         profileAvatar.translatesAutoresizingMaskIntoConstraints = false
         profileAvatar.heightAnchor.constraint(equalToConstant: 70).isActive = true
         profileAvatar.widthAnchor.constraint(equalToConstant: 70).isActive = true
         profileAvatar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         profileAvatar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
+    }
+    private func addNameLabel() {
         
         let userNameLabel = UILabel()
         userNameLabel.textColor = UIColor(named: "YP White")
@@ -48,7 +37,9 @@ final class ProfileViewController: UIViewController {
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         userNameLabel.topAnchor.constraint(equalTo: profileAvatar.bottomAnchor, constant: 8).isActive = true
         userNameLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
-        
+    }
+    
+    private func addMailLabel() {
         let userMailLabel = UILabel()
         userMailLabel.textColor = UIColor(named: "YP Gray")
         userMailLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
@@ -57,7 +48,9 @@ final class ProfileViewController: UIViewController {
         userMailLabel.translatesAutoresizingMaskIntoConstraints = false
         userMailLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8).isActive = true
         userMailLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
-        
+    }
+    
+    private func addGreetinngLabel() {
         let greetingLabel = UILabel()
         greetingLabel.textColor = UIColor(named: "YP White")
         greetingLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
@@ -65,9 +58,10 @@ final class ProfileViewController: UIViewController {
         greetingLabel.translatesAutoresizingMaskIntoConstraints = false
         greetingLabel.topAnchor.constraint(equalTo: userMailLabel.bottomAnchor, constant: 8).isActive = true
         greetingLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
-        
-        updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
-        
+    }
+    
+    
+    private func addExitButton() {
         let exitButton =  UIButton(type: .system)
         exitButton.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
         exitButton.tintColor = UIColor(named: "YP Red")
@@ -81,16 +75,16 @@ final class ProfileViewController: UIViewController {
         exitButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: profileAvatar.centerYAnchor).isActive = true
-        
-        
-        func updateProfileDetails(profile: Profile) {
-            
-            userNameLabel.text = profile.name
-            userMailLabel.text = profile.loginName
-            greetingLabel.text = profile.bio
-            return
-        }
     }
+    
+    func updateProfileDetails(profile: Profile) {
+        
+        userNameLabel.text = profile.name
+        userMailLabel.text = profile.loginName
+        greetingLabel.text = profile.bio
+        return
+    }
+    
     
     private func updateAvatar() {
         guard
@@ -130,7 +124,31 @@ final class ProfileViewController: UIViewController {
         navVC.modalPresentationStyle = .fullScreen
         present(navVC, animated: true)
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        addProfileAvatar()
+        addNameLabel()
+        addMailLabel()
+        addGreetinngLabel()
+        addExitButton()
+        
+        updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
+        
+        view.backgroundColor  = UIColor(named: "YP Black")
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main)
+        { [weak self] _ in
+            guard let self = self else {return}
+            self.updateAvatar()
+        }
+        updateAvatar()
+    }
 }
+
 extension ProfileViewController {
     @objc func buttonTapped() {
         showAlertExit();

@@ -66,26 +66,26 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
 extension SplashViewController {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
-//        guard let token = storage.token else {
-//            return
-//        }
-//        fetchProfile(token: token)
+        //        guard let token = storage.token else {
+        //            return
+        //        }
+        //        fetchProfile(token: token)
     }
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
-            profileService.fetchProfile(token: token) { [weak self] result in
-                UIBlockingProgressHUD.dismiss()
-                DispatchQueue.main.async { [weak self] in
-                    switch result {
-                    case .success(_):
-                        self?.profileImageService.fetchProfileImageURL(username: self?.profileService.profile?.username ?? "No username to feth profileImage", completion: { _ in})
-                        self?.switchToTabBarController()
-                    case .failure(_):
-                        print("Failure. Something going wrong in fetch profile.")
-                        self?.switchToAuthViewController()
-                    }
+        profileService.fetchProfile(token: token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            DispatchQueue.main.async { [weak self] in
+                switch result {
+                case .success(_):
+                    self?.profileImageService.fetchProfileImageURL(username: self?.profileService.profile?.username ?? "No username to feth profileImage", completion: { _ in})
+                    self?.switchToTabBarController()
+                case .failure(_):
+                    print("Failure. Something going wrong in fetch profile.")
+                    self?.switchToAuthViewController()
                 }
             }
+        }
     }
 }
 

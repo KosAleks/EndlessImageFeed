@@ -131,20 +131,11 @@ extension ImageListViewController: UITableViewDataSource {
             print("No user name to create a request for fetch profileImage")
             return
         }
-        imagesListService.fetchPhotosNextPage(username: userName, completion: { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let newPhotos):
-                // Добавляем новые фотографии в существующий массив
-                self.photos.append(contentsOf: newPhotos)
-                // Обновляем таблицу
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                // Обрабатываем ошибку, например, показываем пользователю сообщение
-                print("Failed to fetch photos: \(error.localizedDescription)")
+        imagesListService.fetchPhotosNextPage(username: userName, completion: { result in
+            guard case .failure(let error) = result else {
+                return
             }
+                print("Failed to fetch photos: \(error.localizedDescription)")
         })
     }
 }

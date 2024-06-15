@@ -17,9 +17,8 @@ final class ImagesListService {
     
     private func makePhotosRequest() -> URLRequest? {
         let nextPage = lastLoadedPage + 1
-        let perPage = 10
         let orderBy = "latest"
-        let urlString = "https://api.unsplash.com/photos?page=\(nextPage)&per_page=\(perPage)&order_by=\(orderBy)"
+        let urlString = "https://api.unsplash.com/photos?page=\(nextPage)&order_by=\(orderBy)"
         guard let url = URL(string: urlString) else {
             print("Failed to create URL with baseURL and parameters.")
             return nil

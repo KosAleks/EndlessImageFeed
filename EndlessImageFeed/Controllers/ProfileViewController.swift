@@ -85,7 +85,6 @@ final class ProfileViewController: UIViewController {
         return
     }
     
-    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.profileImageURL,
@@ -148,8 +147,8 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
     }
 }
-
-extension ProfileViewController {
+    
+  extension ProfileViewController {
     @objc func buttonTapped() {
         showAlertExit();
         print("Button was tapped!")

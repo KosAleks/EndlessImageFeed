@@ -28,9 +28,8 @@ final class ProfileViewController: UIViewController {
         profileAvatar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         profileAvatar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
     }
+    
     private func addNameLabel() {
-        
-        let userNameLabel = UILabel()
         userNameLabel.textColor = UIColor(named: "YP White")
         userNameLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
         view.addSubview(userNameLabel)
@@ -40,18 +39,15 @@ final class ProfileViewController: UIViewController {
     }
     
     private func addMailLabel() {
-        let userMailLabel = UILabel()
         userMailLabel.textColor = UIColor(named: "YP Gray")
         userMailLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
-        
         view.addSubview(userMailLabel)
         userMailLabel.translatesAutoresizingMaskIntoConstraints = false
         userMailLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8).isActive = true
         userMailLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
     }
     
-    private func addGreetinngLabel() {
-        let greetingLabel = UILabel()
+    private func addGreetingLabel() {
         greetingLabel.textColor = UIColor(named: "YP White")
         greetingLabel.font = UIFont(name: "YSDisplay-Regular", size: 13)
         view.addSubview(greetingLabel)
@@ -60,9 +56,8 @@ final class ProfileViewController: UIViewController {
         greetingLabel.leadingAnchor.constraint(equalTo: profileAvatar.leadingAnchor).isActive = true
     }
     
-    
     private func addExitButton() {
-        let exitButton =  UIButton(type: .system)
+        let exitButton = UIButton(type: .system)
         exitButton.setImage(UIImage(systemName: "ipad.and.arrow.forward"), for: .normal)
         exitButton.tintColor = UIColor(named: "YP Red")
         exitButton.addTarget(self,
@@ -78,11 +73,9 @@ final class ProfileViewController: UIViewController {
     }
     
     func updateProfileDetails(profile: Profile) {
-        
         userNameLabel.text = profile.name
         userMailLabel.text = profile.loginName
         greetingLabel.text = profile.bio
-        return
     }
     
     private func updateAvatar() {
@@ -108,9 +101,7 @@ final class ProfileViewController: UIViewController {
         }
         
         let noButton = UIAlertAction(title: "No",
-                                     style: .cancel) { _ in
-            alert.dismiss(animated: true)
-        }
+                                     style: .cancel, handler: nil)
         alert.addAction(yesButton)
         alert.addAction(noButton)
         present(alert, animated: true)
@@ -130,7 +121,7 @@ final class ProfileViewController: UIViewController {
         addProfileAvatar()
         addNameLabel()
         addMailLabel()
-        addGreetinngLabel()
+        addGreetingLabel()
         addExitButton()
         
         updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
@@ -148,10 +139,9 @@ final class ProfileViewController: UIViewController {
     }
 }
     
-  extension ProfileViewController {
+extension ProfileViewController {
     @objc func buttonTapped() {
-        showAlertExit();
+        showAlertExit()
         print("Button was tapped!")
     }
 }
-

@@ -11,14 +11,11 @@ import ObjectiveC
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
 var presenter: ProfilePresenterProtocol? 
-   
     private var profileStorage = ProfileStorage()
-   // private var token = OAuth2TokenStorage.shared.token
     private let userNameLabel = UILabel()
     private let userMailLabel = UILabel()
     private let greetingLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
-    private let profileLogoutService = ProfileLogoutService.shared
     var profileAvatar = UIImageView()
     
     private func addProfileAvatar() {
@@ -93,7 +90,7 @@ var presenter: ProfilePresenterProtocol?
         
         let yesButton = UIAlertAction(title: "Yes",
                                       style: .default) { _ in
-            self.profileLogoutService.logout()
+            self.presenter?.logout() 
             self.switchAuthViewController()
         }
         

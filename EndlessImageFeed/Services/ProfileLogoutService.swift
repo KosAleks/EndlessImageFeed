@@ -24,7 +24,6 @@ final class ProfileLogoutService {
         cleanProfileService()
         cleanImagesListService()
         cleanProfileImage()
-        
     }
     
     private func cleanCookies() {

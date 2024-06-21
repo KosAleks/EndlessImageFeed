@@ -11,15 +11,14 @@ public protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
     func viewDidLoad()
     func updateAvatar()
-  //  func logout()
+    func logout()
     func updateProfileDetails()
-    
 }
 
 final class ProfilePresenter: ProfilePresenterProtocol {
-   
     weak var view: ProfileViewControllerProtocol?
     private let profileService = ProfileService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     
     init(view: ProfileViewControllerProtocol) {
         self.view = view
@@ -28,7 +27,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     func viewDidLoad() {
         updateAvatar()
         updateProfileDetails()
-    //    logout()
+        logout()
         
     }
     
@@ -40,9 +39,9 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         view?.updateAvatar(url: url)
         }
     
-//    func logout() {
-//        <#code#>
-//    }
+    func logout() {
+        profileLogoutService.logout()
+    }
     
     func updateProfileDetails() {
         guard let profile = profileService.profile else {return}

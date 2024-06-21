@@ -27,6 +27,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     
     func viewDidLoad() {
         updateAvatar()
+        updateProfileDetails()
     //    logout()
         
     }

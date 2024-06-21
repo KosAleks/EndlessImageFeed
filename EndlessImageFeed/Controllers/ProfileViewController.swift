@@ -13,7 +13,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
 var presenter: ProfilePresenterProtocol? 
    
     private var profileStorage = ProfileStorage()
-    private var token = OAuth2TokenStorage.shared.token
+   // private var token = OAuth2TokenStorage.shared.token
     private let userNameLabel = UILabel()
     private let userMailLabel = UILabel()
     private let greetingLabel = UILabel()
@@ -122,9 +122,7 @@ var presenter: ProfilePresenterProtocol?
         addExitButton()
         presenter = ProfilePresenter(view: self)
         presenter?.viewDidLoad()
-        
-//        updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
-        
+   
         view.backgroundColor  = UIColor(named: "YP Black")
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,

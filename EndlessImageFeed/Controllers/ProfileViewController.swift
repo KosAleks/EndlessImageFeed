@@ -9,8 +9,9 @@ import UIKit
 import Kingfisher
 import ObjectiveC
 
-final class ProfileViewController: UIViewController {
-    private let profileService = ProfileService.shared
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+var presenter: ProfilePresenterProtocol? 
+   
     private var profileStorage = ProfileStorage()
     private var token = OAuth2TokenStorage.shared.token
     private let userNameLabel = UILabel()
@@ -78,11 +79,7 @@ final class ProfileViewController: UIViewController {
         greetingLabel.text = profile.bio
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.profileImageURL,
-            let url = URL(string: profileImageURL)
-        else { return }
+   func updateAvatar(url: URL) {
         profileAvatar.kf.setImage(with: url)
         print("\(profileAvatar)")
     }
@@ -123,8 +120,10 @@ final class ProfileViewController: UIViewController {
         addMailLabel()
         addGreetingLabel()
         addExitButton()
+        presenter = ProfilePresenter(view: self)
+        presenter?.viewDidLoad()
         
-        updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
+//        updateProfileDetails(profile: profileService.profile ?? Profile(username: "no userName", name: "no firstName, no lastName", loginName: "no loginName"))
         
         view.backgroundColor  = UIColor(named: "YP Black")
         profileImageServiceObserver = NotificationCenter.default.addObserver(
@@ -133,9 +132,9 @@ final class ProfileViewController: UIViewController {
             queue: .main)
         { [weak self] _ in
             guard let self = self else {return}
-            self.updateAvatar()
+            presenter?.updateAvatar()
         }
-        updateAvatar()
+        presenter?.updateAvatar()
     }
 }
     

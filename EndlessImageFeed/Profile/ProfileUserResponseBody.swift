@@ -43,7 +43,7 @@ struct ProfileImage : Codable {
     }
 }
 
-struct Profile {
+public struct Profile {
     var username: String
     var name: String
     var loginName: String

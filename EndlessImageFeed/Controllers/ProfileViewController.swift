@@ -10,7 +10,7 @@ import Kingfisher
 import ObjectiveC
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
-var presenter: ProfilePresenterProtocol? 
+var presenter: (any ProfilePresenterProtocol)? 
     private var profileStorage = ProfileStorage()
     private let userNameLabel = UILabel()
     private let userMailLabel = UILabel()
@@ -117,7 +117,6 @@ var presenter: ProfilePresenterProtocol?
         addMailLabel()
         addGreetingLabel()
         addExitButton()
-        presenter = ProfilePresenter(view: self)
         presenter?.viewDidLoad()
    
         view.backgroundColor  = UIColor(named: "YP Black")

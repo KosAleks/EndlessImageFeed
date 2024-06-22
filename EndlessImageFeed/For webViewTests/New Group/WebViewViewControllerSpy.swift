@@ -1,8 +1,8 @@
 //
-//  WebViewViewControllerSpy.swift
+//  File.swift
 //  EndlessImageFeed
 //
-//  Created by Александра Коснырева on 19.06.2024.
+//  Created by Александра Коснырева on 22.06.2024.
 //
 
 import Foundation
@@ -21,6 +21,4 @@ final class WebViewViewControllerSpy: WebViewViewControllerProtocol {
     func setProgressHidden(_ isHidden: Bool) {
         
     }
-    
-    
 }

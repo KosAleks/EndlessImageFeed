@@ -1,8 +1,8 @@
 //
-//  WebViewPresenterSpy.swift
+//  File2.swift
 //  EndlessImageFeed
 //
-//  Created by Александра Коснырева on 21.06.2024.
+//  Created by Александра Коснырева on 22.06.2024.
 //
 
 import Foundation

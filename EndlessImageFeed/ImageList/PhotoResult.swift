@@ -44,7 +44,7 @@ struct UrlsResult: Codable {
     }
 }
 
-struct Photo: Codable {
+public struct Photo: Codable {
     var id: String?
     var size: CGSize?
     var createdAt: String?

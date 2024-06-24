@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 final class ImagesListService {
-    private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 0
+    private (set) var photos = [Photo]()
     private var task: URLSessionTask?
     private let profileService = ProfileService.shared
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
@@ -151,7 +152,7 @@ final class ImagesListService {
             do {
                 let decoder = JSONDecoder()
                 let photoResult = try decoder.decode(PhotoResult.self, from: data)
-                let updatedPhoto = Photo(photoResult: photoResult)
+                _ = Photo(photoResult: photoResult)
                 DispatchQueue.main.async {
                     if let self = self {
                         if let index = self.photos.firstIndex(where: { $0.id == photoId }) {

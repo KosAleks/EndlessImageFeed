@@ -66,10 +66,6 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
 extension SplashViewController {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
-        //        guard let token = storage.token else {
-        //            return
-        //        }
-        //        fetchProfile(token: token)
     }
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()

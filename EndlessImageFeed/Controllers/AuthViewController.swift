@@ -77,6 +77,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         enterButton.setTitleColor(UIColor(named: "YP Black"), for: .normal)
         enterButton.addTarget(self, action: #selector(didTapEnterButton), for: .touchUpInside)
         enterButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        enterButton.accessibilityIdentifier = "Authenticate"
     }
     
     private func configureBackButton() {

@@ -78,15 +78,16 @@ final class ImagesListService {
             do {
                 let decoder = JSONDecoder()
                 let photoResults = try decoder.decode([PhotoResult].self, from: data)
-                let photos = photoResults.map { Photo(photoResult: $0) }
+                let photo = photoResults.map { Photo(photoResult: $0) }
                 DispatchQueue.main.async {
                     if let self = self {
-                        self.photos.append(contentsOf: photos)
+                        self.photos.append(contentsOf: photo)
+                        print("\(self.photos)")
                         self.lastLoadedPage = self.lastLoadedPage + 1
                         NotificationCenter.default.post(
                             name: ImagesListService.didChangeNotification,
                             object: self)
-                        completion(.success(photos))
+                        completion(.success(self.photos))
                     }
                 }
             } catch {

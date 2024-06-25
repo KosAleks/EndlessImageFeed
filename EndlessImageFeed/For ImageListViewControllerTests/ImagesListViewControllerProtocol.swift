@@ -9,6 +9,6 @@ import Foundation
 public protocol ImagesListViewControllerProtocol: AnyObject {
     var imagesPresenter: ImagesListPresenterProtocol? {get set}
      func viewUpdateTableViewAnimated(oldCount: Int, newCount: Int)
-//     func showProgressHud()
-//     func dismissProgressHud()
+     func showUIProgressHUD()
+     func dismissProgressHud()
 }

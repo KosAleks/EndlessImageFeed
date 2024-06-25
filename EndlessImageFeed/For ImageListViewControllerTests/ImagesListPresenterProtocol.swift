@@ -13,11 +13,8 @@ public protocol ImagesListPresenterProtocol: AnyObject {
     func updateTableViewAnimated()
     func returnPhotoAtIndexPath(at indexPath: IndexPath) -> Photo
     func synchPhotos()
-    //    func fetchNextPage(at indexPath: IndexPath)
-    //    func getLargeImageURL(at indexPath: IndexPath) -> String?
     func photosCount() -> Int
-    //    func getThumbImage(at indexPath: IndexPath) -> Photo?
-   // func didTapLike(at indexPath: IndexPath, completion: @escaping (Result<Bool, Error>) -> Void)
+    func didTapLike(at indexPath: IndexPath, completion: @escaping (Result<Bool, Error>) -> Void)
     func addObserver()
     func removeObserver()
 }
@@ -64,7 +61,6 @@ final class ImagesPresenter: ImagesListPresenterProtocol {
     func updateTableViewAnimated() {
         let oldCount = self.photos.count
         let newCount = imagesListService.photos.count
-        // обновили данные
         synchPhotos()
         if oldCount != newCount {
             DispatchQueue.main.async {
@@ -77,29 +73,24 @@ final class ImagesPresenter: ImagesListPresenterProtocol {
         return photos[indexPath.row]
     }
     
-    
     func photosCount() -> Int {
         return photos.count
     }
     
-    //    func  getThumbImage(at indexPath: IndexPath) -> Photo? {
-    //        guard indexPath.row < photos.count else { return nil }
-    //        return photos[indexPath.row]
-    //    }
-    //
-//    func didTapLike(at indexPath: IndexPath, completion: @escaping (Result<Bool, Error>) -> Void) {
-//            self.view?.showProgressHud()
-//            imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked ) { result in
-//                switch result {
-//                case .success(let photoIsLiked):
-//                    self.photos[indexPath.row] = photoIsLiked
-//                    self.view?.dismissProgressHud()
-//                case .failure:
-//                    self.view?.dismissProgressHud()
-//                }
-//            }
-//        }
-//
+    func didTapLike(at indexPath: IndexPath, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let photo = photos[indexPath.row]
+            self.view?.showUIProgressHUD()
+            imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked ) { result in
+                switch result {
+                case .success(let photoIsLiked):
+                    self.photos[indexPath.row] = photoIsLiked
+                    self.view?.dismissProgressHud()
+                case .failure:
+                    self.view?.dismissProgressHud()
+                }
+            }
+        }
+
     func addObserver() {
         self.imageListServiceObserver = NotificationCenter.default.addObserver(
             forName: ImagesListService.didChangeNotification ,

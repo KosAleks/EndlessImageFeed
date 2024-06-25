@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import ProgressHUD
 
-final class ImageListViewController: UIViewController, ImagesListViewControllerProtocol {    
+final class ImageListViewController: UIViewController, ImagesListViewControllerProtocol {
     var imagesPresenter: ImagesListPresenterProtocol?
     @IBOutlet private var tableView: UITableView!
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
@@ -26,12 +26,6 @@ final class ImageListViewController: UIViewController, ImagesListViewControllerP
         return dateFormatted
     }()
     
-//    func configure() {
-//            let presenter = ImagesPresenter(view: self)
-//            self.imagesPresenter = presenter
-//        }
-    
-   
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
@@ -43,7 +37,7 @@ final class ImageListViewController: UIViewController, ImagesListViewControllerP
         super.viewWillDisappear(animated)
         imagesPresenter?.removeObserver()
     }
-   
+    
     func tableView(
         _ tableView: UITableView,
         willDisplay cell: UITableViewCell,
@@ -112,36 +106,30 @@ extension ImageListViewController: UITableViewDataSource {
     }
     
     func viewUpdateTableViewAnimated(oldCount: Int, newCount: Int) {
-            self.tableView.performBatchUpdates {
-                imagesPresenter?.synchPhotos()
-                let indexPath = (oldCount..<newCount).map {
-                    IndexPath(row: $0, section: 0)
-                }
-                tableView.insertRows(at: indexPath, with: .automatic)
-            } completion: { _ in }
-        }
+        self.tableView.performBatchUpdates {
+            imagesPresenter?.synchPhotos()
+            let indexPath = (oldCount..<newCount).map {
+                IndexPath(row: $0, section: 0)
+            }
+            tableView.insertRows(at: indexPath, with: .automatic)
+        } completion: { _ in }
     }
+}
 
 extension ImageListViewController: ImagesListCellDelegate {
     func imagesListCellDidTapLike(_ cell: ImageListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-      //  imagesPresenter.didTapLike()
-        let photo = imagesPresenter?.returnPhotoAtIndexPath(at: indexPath)
-        // view.showUIProgressHUD()
-        imagesListService.changeLike(photoId: photo?.id ?? "no photo id", isLike: photo?.isLiked ?? true) { result in
+        imagesPresenter?.didTapLike(at: indexPath) { [weak self] result in
+            guard let self = self else {return}
             switch result {
             case .success(let photoIsLiked):
-                var photo = self.imagesPresenter?.returnPhotoAtIndexPath(at: indexPath)
-                photo = photoIsLiked
-                cell.setIsLiked(isLike: photoIsLiked.isLiked)
-                // view.dismissProgressHud()
-            case .failure:
-                // view.dismissProgressHud()
+                cell.setIsLiked(isLike: photoIsLiked)
+            case .failure(_):
                 let alert = UIAlertController(
                     title: "Something is goinng wrong",
                     message: "we are already fixing the problem, please wait",
                     preferredStyle: .alert)
-                alert.show(ImageListViewController(), sender: nil)
+            alert.show(ImageListViewController(), sender: nil)
             }
         }
     }

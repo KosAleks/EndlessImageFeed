@@ -35,6 +35,7 @@ final class ImageListCell: UITableViewCell {
     func setIsLiked(isLike: Bool?) {
         let imageLike = isLike ?? true ? "Icon 42x42 ActiveLike" : "Icon 42x42 NoActiveLike1"
         likeButtonActive.setImage(UIImage(named: imageLike), for: .normal)
+        likeButtonActive.accessibilityIdentifier = "likeButton"
     }
     
     // MARK: - IB Actions

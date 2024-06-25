@@ -68,6 +68,7 @@ var presenter: (any ProfilePresenterProtocol)?
         exitButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: profileAvatar.centerYAnchor).isActive = true
+        exitButton.accessibilityIdentifier = "exitButton"
     }
     
     func updateProfileDetails(profile: Profile) {
@@ -93,6 +94,7 @@ var presenter: (any ProfilePresenterProtocol)?
             self.presenter?.logout() 
             self.switchAuthViewController()
         }
+//        yesButton.accessibilityIdentifier = "Yes"
         
         let noButton = UIAlertAction(title: "No",
                                      style: .cancel, handler: nil)

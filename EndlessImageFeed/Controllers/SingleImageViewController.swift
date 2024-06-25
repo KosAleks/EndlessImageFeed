@@ -55,6 +55,7 @@ final class SingleImageViewController: UIViewController {
         scrollView.maximumZoomScale = 1.25
         setImage()
         view.backgroundColor = UIColor(named: "YP Black")
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "backButton"
     }
     
     @IBAction func didTapBackButton() {

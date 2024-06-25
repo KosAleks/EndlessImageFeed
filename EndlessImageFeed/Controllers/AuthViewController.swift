@@ -16,7 +16,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
     private let authLogo = UIImageView()
-    private let enterButton = UIButton()
+    let enterButton = UIButton()
     
     //MARK: Actions
     @objc private func didTapEnterButton() {
@@ -49,9 +49,9 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             UIBlockingProgressHUD.dismiss()
         }
     }
-    deinit {
-        print(">>>>>>> deinit")
-    }
+//    deinit {
+//        print(">>>>>>> deinit")
+//    }
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }

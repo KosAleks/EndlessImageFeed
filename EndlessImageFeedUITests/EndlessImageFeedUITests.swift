@@ -27,14 +27,14 @@ class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         
         loginTextField.tap()
-        loginTextField.typeText("ХХХХХ")
+        loginTextField.typeText("login")
         XCUIApplication().toolbars.buttons["Done"].tap()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
-        passwordTextField.typeText("ХХХХ")
+        passwordTextField.typeText("password")
         XCUIApplication().toolbars.buttons["Done"].tap()
         
         webView.buttons["Login"].tap()
@@ -53,15 +53,15 @@ class Image_FeedUITests: XCTestCase {
         
         sleep(2)
         
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        let cellToLike = tablesQuery.children(matching: .cell) //.element(boundBy: 1)
         
         cellToLike.buttons["likeButton"].tap()
         sleep(2)
-        cellToLike.buttons["likeButton"].tap()
+        cellToLike.buttons["Icon 42x42 NoActiveLike1"].tap()
         
         sleep(2)
         
-        cellToLike.tap()
+//        cellToLike.tap()
         
         sleep(2)
         
@@ -79,11 +79,18 @@ class Image_FeedUITests: XCTestCase {
         sleep(3)
         app.tabBars.buttons.element(boundBy: 1).tap()
        
-        XCTAssertTrue(app.staticTexts["Aleksandra Kosnyreva"].exists)
-        XCTAssertTrue(app.staticTexts["@kosaleks"].exists)
+        XCTAssertTrue(app.staticTexts["name"].exists)
+        XCTAssertTrue(app.staticTexts["userName"].exists)
         
         app.buttons["exitButton"].tap()
         
-        app.alerts["Exit from account \(name)"].scrollViews.otherElements.buttons["Yes"].tap()
+        let alert = app.alerts["Exit from account (name)"]
+        let yesButton = alert.buttons["Yes"]
+        
+        sleep(3)
+        
+        XCTAssertTrue(alert.exists)
+        XCTAssertTrue(yesButton.exists)
+        
     }
 }

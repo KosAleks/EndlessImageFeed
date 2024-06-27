@@ -19,6 +19,7 @@ final class ImageListViewController: UIViewController, ImagesListViewControllerP
    // private let isLikedImage = UIImage(named: "Icon 42x42 ActiveLike")
     private let placeholder = UIImage(named: "placeholder")
     private var iSO8601DateFormatter = ISO8601DateFormatter()
+    private let imageListCell = ImageListCell()
     
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatted = DateFormatter()

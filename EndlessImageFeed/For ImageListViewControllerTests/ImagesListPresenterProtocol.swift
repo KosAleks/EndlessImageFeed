@@ -26,6 +26,7 @@ final class ImagesPresenter: ImagesListPresenterProtocol {
     private let profileService = ProfileService.shared
     private let imagesListService = ImagesListService()
     private var imageListServiceObserver: NSObjectProtocol?
+    private let profileStorage = ProfileStorage()
     
     init(view: ImagesListViewControllerProtocol) {
         self.view = view
@@ -37,10 +38,7 @@ final class ImagesPresenter: ImagesListPresenterProtocol {
     }
     
     func fetchPhotos() {
-        guard let userName = profileService.profile?.username else {
-            print("No user name to create a request for fetch profileImage")
-            return
-        }
+        let userName = profileStorage.userName
         imagesListService.fetchPhotosNextPage(username: userName) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {

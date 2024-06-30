@@ -49,9 +49,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             UIBlockingProgressHUD.dismiss()
         }
     }
-//    deinit {
-//        print(">>>>>>> deinit")
-//    }
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }

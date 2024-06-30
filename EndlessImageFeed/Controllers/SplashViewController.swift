@@ -71,14 +71,14 @@ extension SplashViewController {
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
         profileService.fetchProfile(token: token) { [weak self] result in
-            UIBlockingProgressHUD.dismiss()
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
                 switch result {
                 case .success(_):
-                    self?.profileImageService.fetchProfileImageURL(username: self?.profileStorage.userName ?? "no userName to fetch profile", completion: { _ in})
+                    self?.profileImageService.fetchProfileImageURL(username: self?.profileStorage.userName ?? "no userName to fetch profile", completion: { _ in })
                     self?.switchToTabBarController()
                 case .failure(_):
-                    print("Failure. Something going wrong in fetch profile.")
+                    print("Failure. Something went wrong in fetch profile.")
                     self?.switchToAuthViewController()
                 }
             }

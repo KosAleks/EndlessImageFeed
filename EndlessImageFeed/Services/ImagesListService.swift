@@ -153,23 +153,22 @@ final class ImagesListService {
             do {
                 let decoder = JSONDecoder()
                 let photoResult = try decoder.decode(PhotoResult.self, from: data)
-                _ = Photo(photoResult: photoResult)
-                DispatchQueue.main.async { [self] in
-                    if let self = self {
-                        if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
-                            let photo = self.photos[index]
-                            let newPhoto = Photo(id: photo.id,
-                                                 size: photo.size,
-                                                 createdAt: photo.createdAt,
-                                                 welcomeDescription: photo.welcomeDescription,
-                                                 thumbImageURL: photo.thumbImageURL,
-                                                 largeImageURL: photo.largeImageURL,
-                                                 isLiked: !photo.isLiked)
-                            self.photos[index] = newPhoto
-                            completion(.success(newPhoto))
-                        }
-                        NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
+                let photo = Photo(photoResult: photoResult)
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                        let photo = self.photos[index]
+                        let newPhoto = Photo(id: photo.id,
+                                             size: photo.size,
+                                             createdAt: photo.createdAt,
+                                             welcomeDescription: photo.welcomeDescription,
+                                             thumbImageURL: photo.thumbImageURL,
+                                             largeImageURL: photo.largeImageURL,
+                                             isLiked: !photo.isLiked)
+                        self.photos[index] = newPhoto
+                        completion(.success(newPhoto))
                     }
+                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                 }
             } catch {
                 DispatchQueue.main.async {

@@ -29,7 +29,7 @@ final class ProfileService {
         return request
     }
     
-    func fetchProfile(token: String, completion: @escaping (Result<Profile,Error>) -> Void) {
+    func fetchProfile(token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         guard let request = makeUserProfileRequest(token: token) else {
@@ -40,13 +40,12 @@ final class ProfileService {
             self.task = nil
             switch result {
             case .success(let response):
-                // сохраняем полученные данные в ProfileStorage
                 let resultStorage = ProfileStorage()
                 resultStorage.userName = response.userName
                 resultStorage.firstName = response.firstName ?? "No first name"
                 resultStorage.lastName = response.lastName ?? "No last name"
                 resultStorage.bio = response.bio ?? "No bio info"
-                print(resultStorage.userName,resultStorage.firstName ,resultStorage.lastName, resultStorage.bio)
+                print(resultStorage.userName, resultStorage.firstName, resultStorage.lastName, resultStorage.bio)
                 
                 let profileResult = ProfileResult(
                     userName: response.userName,
@@ -57,16 +56,17 @@ final class ProfileService {
                 
                 self.profile = Profile(profileResult: profileResult)
                 
-                DispatchQueue.main.async{ [self] in
-                    completion(.success(self.profile ?? Profile(username: "no user name", name: "no name", loginName: "no login name")))
+                DispatchQueue.main.async { [weak self] in
+                    completion(.success(self?.profile ?? Profile(username: "no user name", name: "no name", loginName: "no login name")))
                 }
             case .failure(let error):
-                DispatchQueue.main.async{
+                DispatchQueue.main.async {
                     completion(.failure(error))
                 }
             }
         }
     }
+
     func cleanProfile() {
         self.profile = nil
     }

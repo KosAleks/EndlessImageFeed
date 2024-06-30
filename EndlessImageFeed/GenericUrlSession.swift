@@ -9,10 +9,9 @@ import Foundation
 
 private weak var task: URLSessionTask?
 extension URLSession {
-    
     func objectTask<T: Decodable>(
         for request: URLRequest,
-        completion: @escaping(Result<T, Error>)-> Void
+        completion: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
         if task != nil {
             task?.cancel()
@@ -23,9 +22,9 @@ extension URLSession {
             }
         }
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: { data, response, error  in
-            DispatchQueue.main.async {
-                if let error = error {
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
                     fulfillCompletionOnTheMainThread(.failure(error))
                     print("\(NetworkError.urlRequestError(error))")
                 }
@@ -34,14 +33,18 @@ extension URLSession {
             guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
                 let error = NSError(domain: "HTTP", code: (response as? HTTPURLResponse)?.statusCode ?? -1, userInfo: nil)
                 let statusCode = error.code
-                fulfillCompletionOnTheMainThread(.failure(error))
-                print("\(NetworkError.httpStatusCode(statusCode))")
+                DispatchQueue.main.async {
+                    fulfillCompletionOnTheMainThread(.failure(error))
+                    print("\(NetworkError.httpStatusCode(statusCode))")
+                }
                 return
             }
             guard let data = data else {
                 let error = NSError(domain: "Data", code: -1, userInfo: nil)
-                fulfillCompletionOnTheMainThread(.failure(error))
-                print("\(NetworkError.dataError)")
+                DispatchQueue.main.async {
+                    fulfillCompletionOnTheMainThread(.failure(error))
+                    print("\(NetworkError.dataError)")
+                }
                 return
             }
             do {
@@ -49,15 +52,17 @@ extension URLSession {
                 let response = try decoder.decode(T.self, from: data)
                 let jSonString = String(data: data, encoding: .utf8)
                 print("\(String(describing: jSonString))")
-                fulfillCompletionOnTheMainThread(.success(response))
+                DispatchQueue.main.async {
+                    fulfillCompletionOnTheMainThread(.success(response))
+                }
             } catch {
-                fulfillCompletionOnTheMainThread(.failure(error))
-                print("Ошибка декодирования: (\(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    fulfillCompletionOnTheMainThread(.failure(error))
+                    print("Ошибка декодирования: (\(error.localizedDescription)")
+                }
             }
-        })
+        }
         task.resume()
         return task
     }
 }
-
-

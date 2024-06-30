@@ -154,7 +154,7 @@ final class ImagesListService {
                 let decoder = JSONDecoder()
                 let photoResult = try decoder.decode(PhotoResult.self, from: data)
                 _ = Photo(photoResult: photoResult)
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     if let self = self {
                         if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                             let photo = self.photos[index]
@@ -167,7 +167,6 @@ final class ImagesListService {
                                                  isLiked: !photo.isLiked)
                             self.photos[index] = newPhoto
                             completion(.success(newPhoto))
-                            print("\(newPhoto)")
                         }
                         NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                     }
@@ -180,7 +179,9 @@ final class ImagesListService {
         }
         task?.resume()
     }
+}
     
+extension ImagesListService {
     func cleanImagesList() {
         self.photos = []
     }

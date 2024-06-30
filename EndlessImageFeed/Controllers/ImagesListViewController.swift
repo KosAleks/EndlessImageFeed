@@ -86,6 +86,7 @@ extension ImageListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         imageListCell.delegate = self
+        imageListCell.likeButtonActive.accessibilityIdentifier = "likeButton"
         let photo = imagesPresenter?.returnPhotoAtIndexPath(at: indexPath)
         if let url = URL(string: photo?.thumbImageURL ?? "") {
             imageListCell.imageCell.kf.setImage(with: url, placeholder: placeholder) { [weak self] _ in
@@ -120,17 +121,17 @@ extension ImageListViewController: UITableViewDataSource {
 extension ImageListViewController: ImagesListCellDelegate {
     func imagesListCellDidTapLike(_ cell: ImageListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        imagesPresenter?.didTapLike(at: indexPath) { [weak self] result in
-            guard let self = self else {return}
-            switch result {
-            case .success(let photoIsLiked):
-                cell.setIsLiked(isLike: photoIsLiked)
-            case .failure(_):
-                let alert = UIAlertController(
-                    title: "Something is goinng wrong",
-                    message: "we are already fixing the problem, please wait",
-                    preferredStyle: .alert)
-            alert.show(ImageListViewController(), sender: nil)
+            self.imagesPresenter?.didTapLike(at: indexPath) { [weak self] result in
+                guard self != nil else {return}
+                switch result {
+                case .success(let photoIsLiked):
+                    cell.setIsLiked(isLike: photoIsLiked)
+                case .failure(_):
+                    let alert = UIAlertController(
+                        title: "Something is goinng wrong",
+                        message: "we are already fixing the problem, please wait",
+                        preferredStyle: .alert)
+                    alert.show(ImageListViewController(), sender: nil)
             }
         }
     }

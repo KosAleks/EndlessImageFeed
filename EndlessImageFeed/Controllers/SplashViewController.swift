@@ -14,6 +14,7 @@ final class SplashViewController: UIViewController, AuthViewControllerDelegate {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private var token = OAuth2TokenStorage.shared.token
+    private let profileStorage = ProfileStorage()
     
     private let imageLaunchScreen = UIImageView()
     
@@ -74,7 +75,7 @@ extension SplashViewController {
             DispatchQueue.main.async { [weak self] in
                 switch result {
                 case .success(_):
-                    self?.profileImageService.fetchProfileImageURL(username: self?.profileService.profile?.username ?? "No username to feth profileImage", completion: { _ in})
+                    self?.profileImageService.fetchProfileImageURL(username: self?.profileStorage.userName ?? "no userName to fetch profile", completion: { _ in})
                     self?.switchToTabBarController()
                 case .failure(_):
                     print("Failure. Something going wrong in fetch profile.")

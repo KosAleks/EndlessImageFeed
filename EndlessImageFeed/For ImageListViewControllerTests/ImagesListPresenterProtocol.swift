@@ -78,7 +78,8 @@ final class ImagesPresenter: ImagesListPresenterProtocol {
     func didTapLike(at indexPath: IndexPath, completion: @escaping (Result<Bool, Error>) -> Void) {
         let photo = photos[indexPath.row]
             self.view?.showUIProgressHUD()
-            imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked ) { result in
+            imagesListService.changeLike(photoId: photo.id ?? "no photo id", isLike: photo.isLiked) { [weak self] result in
+                guard let self = self else {return}
                 switch result {
                 case .success(let photoIsLiked):
                     self.photos[indexPath.row] = photoIsLiked

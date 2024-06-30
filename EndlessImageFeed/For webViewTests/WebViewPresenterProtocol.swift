@@ -33,10 +33,7 @@ final class WebViewPresenter: WebViewPresenterProtocol {
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: ApiConstants.accessScope)
         ]
-        guard let url = urlComponents.url else {
-            print("Something is going wrong. Сheck that the url is correct.")
-            return
-        }
+   
         guard let request = authHelper.authRequest() else { return }
         view?.load(request: request)
         didUpdateProgressValue(0)

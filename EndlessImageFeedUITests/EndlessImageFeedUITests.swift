@@ -7,7 +7,7 @@
 
 import XCTest
 
-class Image_FeedUITests: XCTestCase {
+final class Image_FeedUITests: XCTestCase {
     private let app = XCUIApplication() // переменная приложения
     
     override func setUpWithError() throws {
@@ -24,17 +24,17 @@ class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(webView.waitForExistence(timeout: 5))
         
         let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
         
         loginTextField.tap()
-        loginTextField.typeText("login")
+        loginTextField.typeText(" ")
         XCUIApplication().toolbars.buttons["Done"].tap()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
-        passwordTextField.typeText("password")
+        passwordTextField.typeText(" ")
         XCUIApplication().toolbars.buttons["Done"].tap()
         
         webView.buttons["Login"].tap()
@@ -47,28 +47,22 @@ class Image_FeedUITests: XCTestCase {
     
     func testFeed() throws {
         let tablesQuery = app.tables
-        
-        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        cell.swipeUp()
-        
         sleep(2)
+        tablesQuery.element.swipeUp()
         
-        let cellToLike = tablesQuery.descendants(matching: .cell).element(boundBy: 1)
-        
-        cellToLike.buttons["likeButton"].tap()
+        let cellLike = tablesQuery.cells.firstMatch
+        let likeButton = cellLike.buttons["likeButton"]
+        likeButton.tap()
         sleep(2)
-        cellToLike.buttons["Icon 42x42 NoActiveLike1"].tap()
-        
+        likeButton.tap()
         sleep(2)
-        
-        cellToLike.tap()
-        
+        cellLike.tap()
         sleep(2)
-        
+            
         let image = app.scrollViews.images.element(boundBy: 0)
-        // Zoom in
-        image.pinch(withScale: 3, velocity: 1) // zoom in
-        // Zoom out
+        
+        image.pinch(withScale: 3, velocity: 1)
+        
         image.pinch(withScale: 0.5, velocity: -1)
         
         let navBackButtonWhiteButton = app.buttons["backButton"]
@@ -79,12 +73,13 @@ class Image_FeedUITests: XCTestCase {
         sleep(3)
         app.tabBars.buttons.element(boundBy: 1).tap()
        
-        XCTAssertTrue(app.staticTexts["name"].exists)
-        XCTAssertTrue(app.staticTexts["userName"].exists)
+        XCTAssertTrue(app.staticTexts[" "].exists)
+        XCTAssertTrue(app.staticTexts[" "].exists)
         
         app.buttons["exitButton"].tap()
         
-        let alert = app.alerts["Exit from account (name)"]
+        // add your first and last name in alert text
+        let alert = app.alerts["Exit from account \(name)"]
         let yesButton = alert.buttons["Yes"]
         
         sleep(3)

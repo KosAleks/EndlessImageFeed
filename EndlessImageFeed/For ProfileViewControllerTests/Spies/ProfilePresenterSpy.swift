@@ -14,7 +14,6 @@ final class ProfilePresenterSpy: ProfilePresenterProtocol {
     
     func viewDidLoad() {
         viewDidLoadCalled = true
-        print("3333333333===============33333333333")
     }
     
     func updateAvatar() {

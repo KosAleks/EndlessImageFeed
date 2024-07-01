@@ -37,7 +37,6 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         guard let request = authHelper.authRequest() else { return }
         view?.load(request: request)
         didUpdateProgressValue(0)
-       
     }
     
     func didUpdateProgressValue(_ newValue: Double) {

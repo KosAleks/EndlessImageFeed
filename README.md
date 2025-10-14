@@ -1,0 +1,1 @@
+A multi-page application designed to view images via the Unsplash API.  The goals of the application:  View an endless feed of images from Unsplash Editorial. View brief information from a user profile.
